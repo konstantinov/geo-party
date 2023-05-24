@@ -1,0 +1,10 @@
+services:
+  mongo:
+    image: mongo:4.4
+    restart: always
+    ports:
+      - 27020:27017
+    environment:
+      - MONGO_DATA_DIR=/data
+    volumes:
+      - ./docker/mongo:/data
