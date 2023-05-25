@@ -8,11 +8,35 @@
 	$: origin = $page.url.origin;
 
 	const onLogin = () =>
-		window.open(
-			`https://accounts.google.com/o/oauth2/v2/auth?scope=profile&include_granted_scopes=true&response_type=token&state=state_parameter_passthrough_value&redirect_uri=${origin}/profile/auth-success/&client_id=${PUBLIC_GOOGLE_CLIENT_ID}`
-		);
+		(window.location = `https://accounts.google.com/o/oauth2/v2/auth?scope=profile&include_granted_scopes=true&response_type=token&state=state_parameter_passthrough_value&redirect_uri=${origin}/profile/auth-success/&client_id=${PUBLIC_GOOGLE_CLIENT_ID}`);
 </script>
 
-<div class="std-w">
+<div class="content std-w std-p">
+	<div class="avatar">
+		<i class="far fa-user" />
+	</div>
+	You didn't sign in so far.
 	<Button leftIcon="fa-brands fa-google" text="Sign in" type="black" on:click={onLogin} />
 </div>
+
+<style>
+	.content {
+		display: flex;
+		flex-flow: column;
+		gap: 40px;
+		align-items: center;
+	}
+
+	.content .avatar {
+		width: 72px;
+		height: 72px;
+		border-radius: 50%;
+		background: #ccc;
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		justify-content: center;
+		font-size: 30px;
+		justify-self: end;
+	}
+</style>
