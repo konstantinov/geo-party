@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 
-    import { buildIcon} from '~/../utils/ui';
+	import { buildIcon } from '~/../utils/ui';
 	const dispatch = createEventDispatcher();
 
 	export let type;
@@ -10,7 +10,7 @@
 </script>
 
 <button on:click={() => dispatch('click')} class:btn-black={type === 'black'}
-	>{#if leftIcon}<i class="{buildIcon(leftIcon)}" />{/if}{text || ''}</button
+	>{#if leftIcon}<i class={buildIcon(leftIcon)} />{/if}{text || ''}</button
 >
 
 <style>
@@ -30,7 +30,7 @@
 		align-items: center;
 		font-size: 14px;
 	}
-		
+
 	button:hover {
 		background: #bbb;
 	}
@@ -51,5 +51,4 @@
 		background: #666;
 		transition-duration: 0.1s;
 	}
-		
 </style>

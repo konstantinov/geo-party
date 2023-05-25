@@ -37,7 +37,7 @@
 <header class="std-w std-p">
 	<SearchBox />
 	<div class="avatar">
-		<i class="fa-regular fa-user"></i>
+		<i class="far fa-user" />
 	</div>
 </header>
 <slot />
@@ -67,17 +67,17 @@
 	}
 
 	header .avatar {
-			width: 60px;
-			height: 60px;
-			border-radius: 50%;
-			background: #ccc;
-			display: flex;
-			flex-flow: row nowrap;
-			align-items: center;
-			justify-content: center;
-			font-size: 30px;
-			justify-self: end;
-		}
+		width: 72px;
+		height: 72px;
+		border-radius: 50%;
+		background: #ccc;
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		justify-content: center;
+		font-size: 30px;
+		justify-self: end;
+	}
 	footer {
 		position: fixed;
 		bottom: 0;
@@ -91,22 +91,24 @@
 		justify-content: center;
 	}
 
-	footer > nav > :global(button) {
+	footer > nav > :global(button > i) {
 		font-size: 20px;
 	}
-	footer > nav > :global(button.btn-black)  {
+	footer > nav > :global(button.btn-black) {
 		font-size: 16px;
 	}
 
 	@media (min-width: 600px) {
 		footer > nav > :global(button) {
-			font-size: 28px;
 			height: 50px;
 			border-radius: 25px;
 			padding: 10px 25px;
 		}
 
-		footer > nav > :global(button.btn-black)  {
+		footer > nav > :global(button > i) {
+			font-size: 28px;
+		}
+		footer > nav > :global(button.btn-black > i) {
 			font-size: 20px;
 		}
 	}
