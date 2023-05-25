@@ -1,11 +1,14 @@
 <script>
 	import Button from '~/atoms/Button.svelte';
+	import SearchBox from '~/moleculas/SearchBox.svelte';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 
 	let pathname;
 
 	$: pathname = $page.url.pathname;
+
+	$: console.log(pathname);
 
 	const items = [
 		{
@@ -31,16 +34,19 @@
 	];
 </script>
 
-<div class="std-w std-p header">
-	<p>test</p>
-</div>
+<header class="std-w std-p">
+	<SearchBox />
+	<div class="avatar">
+		<i class="fa-regular fa-user"></i>
+	</div>
+</header>
 <slot />
 
 <footer>
 	<nav class="std-w std-p toolbar">
 		{#each items as item}
 			<Button
-				leftIcon={item.icon}
+				leftIcon={`far fa-${item.icon}`}
 				{...pathname === item.url ? { text: item.text, type: 'black' } : undefined}
 				on:click={() => goto(item.url)}
 			/>
@@ -49,10 +55,29 @@
 </footer>
 
 <style>
-	.header {
+	header {
 		display: flex;
-		flex-flow: row nowrap;
+		flex-flow: row wrap;
+		gap: 20px;
+		align-items: start;
 	}
+
+	header :global(.Input) {
+		flex: 1;
+	}
+
+	header .avatar {
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			background: #ccc;
+			display: flex;
+			flex-flow: row nowrap;
+			align-items: center;
+			justify-content: center;
+			font-size: 30px;
+			justify-self: end;
+		}
 	footer {
 		position: fixed;
 		bottom: 0;
@@ -67,12 +92,11 @@
 	}
 
 	footer > nav > :global(button) {
-			font-size: 20px;
-
-			&.btn-black {
-				font-size: 16px;
-			}
-		}
+		font-size: 20px;
+	}
+	footer > nav > :global(button.btn-black)  {
+		font-size: 16px;
+	}
 
 	@media (min-width: 600px) {
 		footer > nav > :global(button) {
@@ -80,10 +104,10 @@
 			height: 50px;
 			border-radius: 25px;
 			padding: 10px 25px;
+		}
 
-			&.btn-black {
-				font-size: 20px;
-			}
+		footer > nav > :global(button.btn-black)  {
+			font-size: 20px;
 		}
 	}
 </style>

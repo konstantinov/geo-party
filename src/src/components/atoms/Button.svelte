@@ -1,6 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 
+    import { buildIcon} from '~/../utils/ui';
 	const dispatch = createEventDispatcher();
 
 	export let type;
@@ -9,7 +10,7 @@
 </script>
 
 <button on:click={() => dispatch('click')} class:btn-black={type === 'black'}
-	>{#if leftIcon}<i class="fa-regular fa-{leftIcon}" />{/if}{text || ''}</button
+	>{#if leftIcon}<i class="{buildIcon(leftIcon)}" />{/if}{text || ''}</button
 >
 
 <style>
@@ -28,26 +29,27 @@
 		background: transparent;
 		align-items: center;
 		font-size: 14px;
-		
-		&:hover {
-			background: #bbb;
-		}
-
-		&:active {
-			background: #999;
-		}
-
-		&.btn-black {
-			color: #fff;
-			background: #000;
-
-			&:hover {
-				background: #444;
-			}
-			&:active {
-				background: #666;
-				transition-duration: 0.1s;
-			}
-		}
 	}
+		
+	button:hover {
+		background: #bbb;
+	}
+
+	button:active {
+		background: #999;
+	}
+
+	button.btn-black {
+		color: #fff;
+		background: #000;
+	}
+
+	button.btn-black:hover {
+		background: #444;
+	}
+	button.btn-black:active {
+		background: #666;
+		transition-duration: 0.1s;
+	}
+		
 </style>
