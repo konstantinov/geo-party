@@ -1,6 +1,5 @@
 <script>
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import axios from 'axios';
 
 	const login = (accessToken) => axios.post('/profile/login', { accessToken });
@@ -10,7 +9,7 @@
 		accessToken = $page.url.hash.match(/access_token=(.*?)[&$]/);
 
 		if (accessToken) {
-			login(accessToken[1]).then(() => goto('/profile'));
+			login(accessToken[1]).then(() => (window.location = '/profile'));
 		}
 	}
 </script>

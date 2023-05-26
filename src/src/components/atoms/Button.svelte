@@ -4,8 +4,8 @@
 	import { buildIcon } from '~/../utils/ui';
 	const dispatch = createEventDispatcher();
 
-	export let type;
-	export let text;
+	export let type = 'white';
+	export let text = '';
 	export let leftIcon;
 </script>
 

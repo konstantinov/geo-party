@@ -11,6 +11,12 @@ export async function POST({ cookies, request }) {
 	});
 	const existsingsUser = await User.findOne({ googleId: data.id }).exec();
 
+	if (existsingsUser) {
+		await User.updateOne({ _id: existsingsUser._id }, { $set: { avatar: data.picture } });
+	}
+
+	const sessionExpiresDate = new Date(Date.now() + parseInt(PUBLIC_SESSION_TTL) * 1000);
+
 	const { _id: userId } =
 		existsingsUser ||
 		(await User.create({
@@ -22,13 +28,13 @@ export async function POST({ cookies, request }) {
 
 	const { _id: sessionId } = await Session.create({
 		userId,
-		expiresAt: Date.now() + parseInt(PUBLIC_SESSION_TTL) * 1000
+		expiresAt: sessionExpiresDate
 	});
 
 	cookies.set('sid', sessionId.toString(), {
 		path: '/',
 		httpOnly: true,
-		expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+		expires: sessionExpiresDate,
 		sameSite: 'strict'
 	});
 
