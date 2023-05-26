@@ -139,6 +139,11 @@ table {
 	padding: 12px;
 }
 
+.std-b {
+	border-radius: 25px;
+	background: #fff;
+}
+
 @media (min-width: 600px) {
 	.std-p {
 		padding: 20px;

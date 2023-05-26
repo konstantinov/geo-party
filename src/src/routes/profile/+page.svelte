@@ -1,9 +1,11 @@
 <script>
 	import Button from '~/atoms/Button.svelte';
+	import Avatar from '~/atoms/Avatar.svelte';
 	import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
 	import { page } from '$app/stores';
 
 	let origin;
+	export let data;
 
 	$: origin = $page.url.origin;
 
@@ -12,11 +14,16 @@
 </script>
 
 <div class="content std-w std-p">
-	<div class="avatar">
-		<i class="far fa-user" />
-	</div>
-	You didn't sign in so far.
-	<Button leftIcon="fa-brands fa-google" text="Sign in" type="black" on:click={onLogin} />
+	<Avatar user={data.user} />
+	{#if data.user}
+		<div class="std-p std-b">
+			<h1>{data.user.name}</h1>
+			<h1>{data.user.email}</h1>
+		</div>
+	{:else}
+		You didn't sign in so far.
+		<Button leftIcon="fa-brands fa-google" text="Sign in" type="black" on:click={onLogin} />
+	{/if}
 </div>
 
 <style>
@@ -27,16 +34,17 @@
 		align-items: center;
 	}
 
-	.content .avatar {
-		width: 72px;
-		height: 72px;
-		border-radius: 50%;
-		background: #ccc;
+	.std-b {
+		width: 100%;
 		display: flex;
-		flex-flow: row nowrap;
+		flex-flow: column;
+		gap: 20px;
 		align-items: center;
-		justify-content: center;
-		font-size: 30px;
-		justify-self: end;
+	}
+
+	h1 {
+		font-size: 18px;
+
+		font-weight: bold;
 	}
 </style>

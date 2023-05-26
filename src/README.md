@@ -1,4 +1,3 @@
-
 ## Developing
 
 .env file
@@ -15,4 +14,3 @@ To start develop environment
 ```bash
 docker-compose up
 ```
-
