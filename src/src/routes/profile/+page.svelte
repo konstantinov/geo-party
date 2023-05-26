@@ -40,6 +40,7 @@
 		flex-flow: column;
 		gap: 20px;
 		align-items: center;
+		box-sizing: border-box;
 	}
 
 	h1 {
