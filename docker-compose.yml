@@ -8,13 +8,13 @@ services:
       - MONGO_DATA_DIR=/data
     volumes:
       - ./docker/mongo:/data
-  # svelte:
-  #   image: svelte-docker-dev
-  #   build:
-  #     context: .
-  #     dockerfile: docker/node/Dockerfile
-  #   ports:
-  #     - 5173:5173
-  #   volumes:
-  #     - ./src/src:/app/src
-  #     - ./src/static:/app/static
+  svelte:
+    image: svelte-docker-dev
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    ports:
+      - 5173:5173
+    volumes:
+      - ./src/src:/app/src
+      - ./src/static:/app/static

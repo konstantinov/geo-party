@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 
 const { Schema, model } = mongoose;
+import { MONGO_URL } from '$env/static/private';
 
-export const db = await mongoose.connect('mongodb://127.0.0.1:27020/geo');
+export const db = await mongoose.connect(MONGO_URL);
 
 const userSchema = new Schema({
 	name: String,
