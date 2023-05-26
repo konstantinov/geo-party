@@ -3,17 +3,21 @@
 	import Map from '~/atoms/Map.svelte';
 	import { onMount } from 'svelte';
 	let mapsInitialized = false;
+	let mapCenter;
 	onMount(async () => {
 		await ymaps3.ready.then(() => {
 			mapsInitialized = true;
+			navigator.geolocation?.getCurrentPosition(
+				(center) => (mapCenter = { lat: center.coords.latitude, lon: center.coords.longitude })
+			);
 		});
 	});
 </script>
 
 <svelte:head>
-	<script src="https://api-maps.yandex.ru/3.0/?apikey={PUBLIC_YANDEX_API_KEY}&lang=ru_RU"></script>
+	<script src="https://api-maps.yandex.ru/3.0/?apikey={PUBLIC_YANDEX_API_KEY}&lang=en_EN"></script>
 </svelte:head>
 
 {#if mapsInitialized}
-	<Map />
+	<Map center={mapCenter} />
 {/if}
