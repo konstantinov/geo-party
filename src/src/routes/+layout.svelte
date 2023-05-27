@@ -31,24 +31,26 @@
 	];
 </script>
 
-<slot />
+<div class="container">
+	<div class="content">
+		<slot />
+	</div>
 
-<footer>
-	<nav class="std-w std-p toolbar">
-		{#each items as item}
-			<Button
-				leftIcon={`far fa-${item.icon}`}
-				{...pathname === item.url ? { text: item.text, type: 'black' } : undefined}
-				on:click={() => goto(item.url)}
-			/>
-		{/each}
-	</nav>
-</footer>
+	<footer>
+		<nav class="std-w std-p toolbar">
+			{#each items as item}
+				<Button
+					leftIcon={`far fa-${item.icon}`}
+					{...pathname === item.url ? { text: item.text, color: 'black' } : undefined}
+					on:click={() => goto(item.url)}
+				/>
+			{/each}
+		</nav>
+	</footer>
+</div>
 
 <style>
 	footer {
-		position: fixed;
-		bottom: 0;
 		width: 100%;
 		background: #fff;
 	}
@@ -79,5 +81,15 @@
 		footer > nav > :global(button.btn-black > i) {
 			font-size: 20px;
 		}
+	}
+
+	.container {
+		height: 100vh;
+		display: flex;
+		flex-flow: column;
+	}
+	.content {
+		width: 100%;
+		flex: 1;
 	}
 </style>

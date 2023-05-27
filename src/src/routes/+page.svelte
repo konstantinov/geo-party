@@ -1,5 +1,7 @@
 <script>
 	import SearchBox from '~/moleculas/SearchBox.svelte';
+	import Button from '~/atoms/Button.svelte';
+
 	import { goto } from '$app/navigation';
 	import Avatar from '~/atoms/Avatar.svelte';
 
@@ -10,8 +12,9 @@
 	<SearchBox />
 	<Avatar user={data.user} clickable on:click={() => goto('/profile')} />
 </header>
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<main class="std-w std-p">
+	<Button type="circle" leftIcon="plus" color="orange" />
+</main>
 
 <style>
 	header {
@@ -23,5 +26,30 @@
 
 	header :global(.Input) {
 		flex: 1;
+	}
+
+	main {
+		flex: 1;
+		position: relative;
+	}
+
+	main > :global(.btn-circle) {
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+	}
+	:global(.content) {
+		display: flex;
+		flex-flow: column;
+	}
+
+	@media (min-width: 600px) {
+		main > :global(.btn-circle) {
+			bottom: 20px;
+			right: 20px;
+			height: 50px !important;
+			width: 50px !important;
+			font-size: 130%;
+		}
 	}
 </style>

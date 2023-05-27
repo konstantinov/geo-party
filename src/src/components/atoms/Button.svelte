@@ -4,12 +4,17 @@
 	import { buildIcon } from '~/../utils/ui';
 	const dispatch = createEventDispatcher();
 
-	export let type = 'white';
+	export let type = '';
+	export let color = 'white';
 	export let text = '';
 	export let leftIcon;
 </script>
 
-<button on:click={() => dispatch('click')} class:btn-black={type === 'black'}
+<button
+	on:click={() => dispatch('click')}
+	class:btn-circle={type === 'circle'}
+	class:btn-black={color === 'black'}
+	class:btn-orange={color === 'orange'}
 	>{#if leftIcon}<i class={buildIcon(leftIcon)} />{/if}{text || ''}</button
 >
 
@@ -50,5 +55,33 @@
 	button.btn-black:active {
 		background: #666;
 		transition-duration: 0.1s;
+	}
+
+	.btn-circle {
+		box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+			0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+		border-radius: 50%;
+		padding: 0;
+		width: 36px;
+		justify-content: center;
+	}
+	.btn-circle i {
+		transition: rotate 1s;
+		rotate: 0deg;
+	}
+	.btn-circle:hover i {
+		rotate: 360deg;
+	}
+
+	.btn-orange {
+		background: #fc9c2d;
+		color: #fff;
+	}
+
+	.btn-orange:hover {
+		background: rgba(252, 156, 45, 0.6);
+	}
+	.btn-orange:active {
+		background: rgba(252, 156, 45, 0.2);
 	}
 </style>

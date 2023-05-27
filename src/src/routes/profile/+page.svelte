@@ -26,13 +26,13 @@
 			<Button
 				leftIcon="arrow-right-from-bracket"
 				text="Sign out"
-				type="black"
+				color="black"
 				on:click={onLogout}
 			/>
 		</div>
 	{:else}
 		You didn't sign in so far.
-		<Button leftIcon="fa-brands fa-google" text="Sign in" type="black" on:click={onLogin} />
+		<Button leftIcon="fa-brands fa-google" text="Sign in" color="black" on:click={onLogin} />
 	{/if}
 </div>
 
