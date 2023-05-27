@@ -9,7 +9,7 @@
 </script>
 
 <header class="std-w std-p">
-	<SearchBox />
+	<SearchBox categories={data.categories} />
 	<Avatar user={data.user} clickable on:click={() => goto('/profile')} />
 </header>
 <main class="std-w std-p">
@@ -20,12 +20,8 @@
 	header {
 		display: flex;
 		flex-flow: row wrap;
-		gap: 20px;
+		gap: 10px;
 		align-items: start;
-	}
-
-	header :global(.Input) {
-		flex: 1;
 	}
 
 	main {
@@ -50,6 +46,10 @@
 			height: 50px !important;
 			width: 50px !important;
 			font-size: 130%;
+		}
+
+		header {
+			gap: 20px;
 		}
 	}
 </style>

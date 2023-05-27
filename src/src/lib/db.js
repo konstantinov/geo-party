@@ -5,6 +5,13 @@ import { MONGO_URL } from '$env/static/private';
 
 export const db = await mongoose.connect(MONGO_URL);
 
+const transformId = (doc, ret) => {
+	ret.id = ret._id.toString();
+	delete ret._id;
+	delete ret.password;
+	delete ret.__v;
+};
+
 const userSchema = new Schema(
 	{
 		name: String,
@@ -16,12 +23,7 @@ const userSchema = new Schema(
 	},
 	{
 		toJSON: {
-			transform: (doc, ret) => {
-				ret.id = ret._id.toString();
-				delete ret._id;
-				delete ret.password;
-				delete ret.__v;
-			}
+			transform: transformId
 		}
 	}
 );
@@ -32,5 +34,18 @@ const sessionSchema = new Schema({
 	createdAt: { type: Date, default: () => new Date() }
 });
 
+const categorySchema = new Schema(
+	{
+		name: { type: String, unique: true },
+		icon: String
+	},
+	{
+		toJSON: {
+			transform: transformId
+		}
+	}
+);
+
 export const User = model('users', userSchema);
 export const Session = model('sessions', sessionSchema);
+export const Category = model('categories', categorySchema);
