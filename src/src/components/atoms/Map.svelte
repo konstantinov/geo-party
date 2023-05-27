@@ -26,11 +26,4 @@
 	});
 </script>
 
-<div bind:this={container} />
-
-<style>
-	div {
-		width: 100%;
-		height: calc(100vh - 90px);
-	}
-</style>
+<div bind:this={container} class="std-f" />

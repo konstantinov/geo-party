@@ -14,9 +14,8 @@ export const handle = async ({ event, resolve }) => {
 
 		if (session) {
 			event.locals.user = (await User.findById(session.userId)).toJSON();
-			event.locals.user.id = event.locals.user._id.toString();
-			delete event.locals.user._id;
-		}
+		} 
+
 		if (!event.locals.user) cookies.delete('sid');
 	}
 

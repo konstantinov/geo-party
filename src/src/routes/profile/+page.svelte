@@ -1,13 +1,17 @@
 <script>
-	import Button from '~/atoms/Button.svelte';
-	import Avatar from '~/atoms/Avatar.svelte';
 	import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+
+	import Button from '~/atoms/Button.svelte';
+	import Avatar from '~/atoms/Avatar.svelte';
 
 	let origin;
 	export let data;
 
 	$: origin = $page.url.origin;
+
+	const onLogout = () => goto('/profile/logout');
 
 	const onLogin = () =>
 		(window.location = `https://accounts.google.com/o/oauth2/v2/auth?scope=profile&include_granted_scopes=true&response_type=token&state=state_parameter_passthrough_value&redirect_uri=${origin}/profile/auth-success/&client_id=${PUBLIC_GOOGLE_CLIENT_ID}`);
@@ -19,6 +23,12 @@
 		<div class="std-p std-b">
 			<h1>{data.user.name}</h1>
 			<h1>{data.user.email}</h1>
+			<Button
+				leftIcon="arrow-right-from-bracket"
+				text="Sign out"
+				type="black"
+				on:click={onLogout}
+			/>
 		</div>
 	{:else}
 		You didn't sign in so far.

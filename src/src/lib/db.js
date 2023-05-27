@@ -12,6 +12,15 @@ const userSchema = new Schema({
 	avatar: String,
 	createdAt: { type: Date, default: () => new Date() },
 	updatedAt: Date
+}, {
+	toJSON: {
+		transform: (doc, ret) => {
+			ret.id = ret._id.toString();
+			delete ret._id;
+			delete ret.password;
+			delete ret.__v;
+		  },
+	}
 });
 
 const sessionSchema = new Schema({
