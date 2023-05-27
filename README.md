@@ -14,3 +14,7 @@ To start develop environment
 ```bash
 docker-compose up
 ```
+
+## Demo database
+
+Minimal demo database dump you may find in `demo-db` folder. Dumps of required collections for MongoDB
