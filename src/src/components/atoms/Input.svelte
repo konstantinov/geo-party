@@ -1,8 +1,11 @@
 <script>
 	import { buildIcon } from '~/../utils/ui';
 	import { createEventDispatcher } from 'svelte';
-	export let leftIcon;
-	export let rightIcon;
+	export let leftIcon = undefined;
+	export let rightIcon = undefined;
+	export let value;
+	export let textarea = false;
+	export let name = undefined;
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -12,7 +15,10 @@
 			class={buildIcon(leftIcon)}
 			on:click={() => dispatch('iconClick', { icon: 'left' })}
 		/>{/if}
-	<input type="text" />
+	{#if textarea}<textarea {name} type="text" bind:value on:change on:blur />
+	{:else}
+		<input {name} type="text" bind:value on:change on:blur />
+	{/if}
 	{#if rightIcon}<i
 			class={buildIcon(rightIcon)}
 			on:click={() => dispatch('iconClick', { icon: 'right' })}
@@ -20,17 +26,21 @@
 </div>
 
 <style>
-	input {
+	input,
+	textarea {
 		padding: 0;
 		margin: 0;
 		border: 0;
 		outline: none;
 		flex: 1;
 		background: transparent;
-		color: #999;
+		height: 100%;
+		color: #979797;
+		font-size: 14px;
+		height: 16px;
 	}
 	i {
-		color: #999;
+		color: #979797;
 		cursor: pointer;
 	}
 	i:hover {
@@ -41,10 +51,14 @@
 		gap: 12px;
 		flex-flow: row nowrap;
 		align-items: center;
-		height: 36px;
 		border-radius: 18px;
 		background: #fff;
-		padding: 0 12px;
-		border: 1px solid #999;
+		padding: 12px 10px;
+		border: 1px solid #979797;
+		box-sizing: border-box;
+	}
+
+	textarea {
+		height: 108px;
 	}
 </style>

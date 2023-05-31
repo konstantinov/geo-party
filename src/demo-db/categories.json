@@ -1,31 +1,37 @@
-[{
-  "_id": {
-    "$oid": "64723c65db3652ff0cf82827"
-  },
-  "name": "Services",
-  "icon": "screwdriver-wrench"
-},{
-  "_id": {
-    "$oid": "64724914db3652ff0cf82828"
-  },
-  "name": "Rentals",
-  "icon": "bicycle"
-},{
-  "_id": {
-    "$oid": "6472492fdb3652ff0cf82829"
-  },
-  "name": "Shops",
-  "icon": "cart-shopping"
-},{
-  "_id": {
-    "$oid": "6472496adb3652ff0cf8282a"
-  },
-  "name": "Parks",
-  "icon": "tree"
-},{
-  "_id": {
-    "$oid": "64724a24db3652ff0cf8282b"
-  },
-  "name": "Events",
-  "icon": "person-biking"
-}]
+[
+	{
+		"_id": {
+			"$oid": "64723c65db3652ff0cf82827"
+		},
+		"name": "Services",
+		"icon": "screwdriver-wrench"
+	},
+	{
+		"_id": {
+			"$oid": "64724914db3652ff0cf82828"
+		},
+		"name": "Rentals",
+		"icon": "bicycle"
+	},
+	{
+		"_id": {
+			"$oid": "6472492fdb3652ff0cf82829"
+		},
+		"name": "Shops",
+		"icon": "cart-shopping"
+	},
+	{
+		"_id": {
+			"$oid": "6472496adb3652ff0cf8282a"
+		},
+		"name": "Parks",
+		"icon": "tree"
+	},
+	{
+		"_id": {
+			"$oid": "64724a24db3652ff0cf8282b"
+		},
+		"name": "Events",
+		"icon": "person-biking"
+	}
+]

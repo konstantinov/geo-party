@@ -28,16 +28,18 @@
 		height: 36px;
 		padding: 0 11px 0 8px;
 		font-size: 14px;
-		border: 1px solid #999;
+		border: 1px solid transparent;
+		transition: ease-in-out 0.3s;
 	}
 
 	.tag-orange {
-		background: #fc9c2d;
+		background: #fc9d2d;
 		border-color: rgba(252, 156, 45, 0.6);
 	}
 
 	.Tag:hover {
 		background: rgba(252, 156, 45, 0.6);
+		border-color: rgba(252, 156, 45, 0.6);
 	}
 
 	i {
@@ -48,6 +50,6 @@
 		border-radius: 50%;
 		height: 24px;
 		width: 24px;
-		background: #fff;
+		background: #eee;
 	}
 </style>

@@ -52,10 +52,4 @@
 		align-items: center;
 		box-sizing: border-box;
 	}
-
-	h1 {
-		font-size: 18px;
-
-		font-weight: bold;
-	}
 </style>

@@ -14,7 +14,6 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",
-		"axios": "^1.4.0",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.26.0",
@@ -27,6 +26,9 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"mongoose": "^7.2.1"
+		"axios": "^1.4.0",
+		"mongoose": "^7.2.1",
+		"svelte-forms-lib": "^2.0.1",
+		"yup": "^1.2.0"
 	}
 }

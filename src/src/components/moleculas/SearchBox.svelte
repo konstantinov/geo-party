@@ -62,6 +62,6 @@
 	}
 
 	.filter-open :global(.Input > i:last-child) {
-		color: #fc9c2d;
+		color: #fc9d2d;
 	}
 </style>

@@ -7,7 +7,9 @@
 	export let type = '';
 	export let color = 'white';
 	export let text = '';
-	export let leftIcon;
+	export let leftIcon = undefined;
+	export let rightIcon = undefined;
+	export let disabled = false;
 </script>
 
 <button
@@ -15,7 +17,11 @@
 	class:btn-circle={type === 'circle'}
 	class:btn-black={color === 'black'}
 	class:btn-orange={color === 'orange'}
-	>{#if leftIcon}<i class={buildIcon(leftIcon)} />{/if}{text || ''}</button
+	class:btn-disabled={disabled}
+	{disabled}
+	>{#if leftIcon}<i class={buildIcon(leftIcon)} />{/if}{text || ''}{#if rightIcon}<i
+			class={buildIcon(rightIcon)}
+		/>{/if}</button
 >
 
 <style>
@@ -36,12 +42,17 @@
 		font-size: 14px;
 	}
 
-	button:hover {
+	button:hover:not(.btn-disabled) {
 		background: #bbb;
 	}
 
+	.btn-disabled {
+		cursor: not-allowed;
+		opacity: 0.6;
+	}
+
 	button:active {
-		background: #999;
+		background: #979797;
 	}
 
 	button.btn-black {
@@ -74,7 +85,7 @@
 	}
 
 	.btn-orange {
-		background: #fc9c2d;
+		background: #fc9d2d;
 		color: #fff;
 	}
 

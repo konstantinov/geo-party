@@ -144,12 +144,6 @@ table {
 	background: #fff;
 }
 
-@media (min-width: 600px) {
-	.std-p {
-		padding: 20px;
-	}
-}
-
 body {
 	background: #f6f6f6;
 	font-family: Roboto;
@@ -160,9 +154,19 @@ body {
 	height: calc(100vh - 60px);
 }
 
+h1 {
+	font-size: 18px;
+
+	font-weight: bold;
+}
+
 @media (min-width: 600px) {
 	.std-f {
 		width: 100%;
 		height: calc(100vh - 90px);
+	}
+
+	.std-p {
+		padding: 20px;
 	}
 }
