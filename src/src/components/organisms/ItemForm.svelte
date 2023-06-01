@@ -6,15 +6,21 @@
 	import Tag from '~/atoms/Tag.svelte';
 	import Button from '~/atoms/Button.svelte';
 	import Input from '~/atoms/Input.svelte';
+	import Map from '~/moleculas/Map.svelte';
 
 	export let categories = [];
 
+	let zoom;
+
 	const { form, errors, handleChange, handleSubmit, validateField } = createForm({
-		initialValues: { category: '', name: '', description: '' },
+		initialValues: { category: '', name: '', description: '', latitude: 0, longitude: 0, zoom: 0 },
 		validationSchema: Yup.object().shape({
 			category: Yup.string().required(),
 			name: Yup.string().required().max(100),
-			description: Yup.string().max(12000)
+			description: Yup.string().max(12000),
+			zoom: Yup.number().min(0).required(),
+			latitude: Yup.number().min(0).required(),
+			longitude: Yup.number().min(0).required()
 		}),
 		onSubmit: (values) => {
 			alert(JSON.stringify(values));
@@ -32,6 +38,15 @@
 				done();
 			}
 		}
+	};
+
+	const onMapMove = async ({ detail }) => {
+		$form.latitude = detail.center[0];
+		$form.longitude = detail.center[1];
+
+		$form.zoom = detail.zoom;
+
+		await Promise.all(['longitude', 'latitude', 'zoom'].map((field) => validateField(field)));
 	};
 </script>
 
@@ -78,6 +93,12 @@
 		/>
 	{:else}
 		<label>Map position</label>
+		<Map
+			containerClass="form-map"
+			on:move={onMapMove}
+			zoom={$form.zoom}
+			center={$form.latitude ? [$form.latitude, $form.longitude] : undefined}
+		/>
 	{/if}
 </form>
 
@@ -119,5 +140,13 @@
 		display: flex;
 		flex-flow: row wrap;
 		gap: 12px;
+	}
+
+	:global(.form-map) {
+		width: 100%;
+		height: 300px;
+		border-radius: 18px;
+		overflow: hidden;
+		border: 1px solid #979797;
 	}
 </style>

@@ -1,5 +1,5 @@
 <script>
-	import Map from '~/atoms/Map.svelte';
+	import Map from '~/moleculas/Map.svelte';
 </script>
 
 <Map containerClass="std-f" />

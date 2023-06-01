@@ -1,40 +1,34 @@
 <script>
-	import { PUBLIC_YANDEX_API_KEY } from '$env/static/public';
-	import MapContent from '~/atoms/MapContent.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 
 	export let containerClass;
-	let script;
-	let mapsInitialized = false;
-	const scriptNeeded = typeof ymaps === 'undefined';
+	export let center;
+	export let zoom;
 
-	const initMaps = () => {
-		ymaps.ready(() => {
-			mapsInitialized = true;
-		});
-	};
+	const dispatch = createEventDispatcher();
+
+	let map, container;
 
 	onMount(async () => {
-		if (scriptNeeded) {
-			await new Promise((resolve) => {
-				script.addEventListener('load', () => {
-					initMaps();
-				});
-			});
-		} else {
-			initMaps();
+		map = new ymaps.Map(container, {
+			center: center || [37.64, 55.76],
+			zoom: zoom || 7,
+			controls: ['geolocationControl', 'typeSelector']
+		});
+
+		map.events.add('actiontickcomplete', (event) => {
+			const center = map.getCenter();
+			const zoom = map.getZoom();
+			dispatch('move', { center, zoom });
+		});
+	});
+
+	onDestroy(() => {
+		if (map) {
+			map.destroy();
+			map = null;
 		}
 	});
 </script>
 
-<svelte:head>
-	{#if scriptNeeded}
-		<script
-			bind:this={script}
-			src="https://api-maps.yandex.ru/2.1/?apikey={PUBLIC_YANDEX_API_KEY}&lang=en_GB"
-		></script>
-	{/if}
-</svelte:head>
-{#if mapsInitialized}
-	<MapContent {containerClass} />
-{/if}
+<div bind:this={container} class={containerClass} />
