@@ -11,5 +11,5 @@
 
 <main class="std-w std-p">
 	<h1>Adding new item to map</h1>
-	<ItemForm on:submit={onSubmit} />
+	<ItemForm on:submit={onSubmit} categories={data.categories} />
 </main>

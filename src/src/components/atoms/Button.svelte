@@ -89,7 +89,7 @@
 		color: #fff;
 	}
 
-	.btn-orange:hover {
+	.btn-orange:hover:not(.btn-disabled) {
 		background: rgba(252, 156, 45, 0.6);
 	}
 	.btn-orange:active {

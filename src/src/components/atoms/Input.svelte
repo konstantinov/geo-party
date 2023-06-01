@@ -6,6 +6,7 @@
 	export let value;
 	export let textarea = false;
 	export let name = undefined;
+	export let id = undefined;
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -15,9 +16,9 @@
 			class={buildIcon(leftIcon)}
 			on:click={() => dispatch('iconClick', { icon: 'left' })}
 		/>{/if}
-	{#if textarea}<textarea {name} type="text" bind:value on:change on:blur />
+	{#if textarea}<textarea {id} {name} type="text" bind:value on:change on:blur />
 	{:else}
-		<input {name} type="text" bind:value on:change on:blur />
+		<input {id} {name} type="text" bind:value on:change on:blur />
 	{/if}
 	{#if rightIcon}<i
 			class={buildIcon(rightIcon)}
@@ -35,7 +36,7 @@
 		flex: 1;
 		background: transparent;
 		height: 100%;
-		color: #979797;
+		color: #000;
 		font-size: 14px;
 		height: 16px;
 	}

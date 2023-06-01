@@ -149,6 +149,11 @@ body {
 	font-family: Roboto;
 }
 
+input,
+textarea {
+	font-family: Roboto;
+}
+
 .std-f {
 	width: 100%;
 	height: calc(100vh - 60px);
