@@ -6,14 +6,11 @@
 	let script;
 	let mapsInitialized = false;
 	let mapCenter;
-	const scriptNeeded = typeof ymaps3 === 'undefined';
+	const scriptNeeded = typeof ymaps === 'undefined';
 
 	const initMaps = () => {
-		ymaps3.ready.then(() => {
+		ymaps.ready(() => {
 			mapsInitialized = true;
-			navigator.geolocation?.getCurrentPosition(
-				(center) => (mapCenter = { lat: center.coords.latitude, lon: center.coords.longitude })
-			);
 		});
 	};
 
@@ -34,10 +31,10 @@
 	{#if scriptNeeded}
 		<script
 			bind:this={script}
-			src="https://api-maps.yandex.ru/3.0/?apikey={PUBLIC_YANDEX_API_KEY}&lang=en_EN"
+			src="https://api-maps.yandex.ru/2.1/?apikey={PUBLIC_YANDEX_API_KEY}&lang=en_GB"
 		></script>
 	{/if}
 </svelte:head>
 {#if mapsInitialized}
-	<Map center={mapCenter} />
+	<Map containerClass="std-f" />
 {/if}

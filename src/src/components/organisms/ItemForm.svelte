@@ -4,7 +4,6 @@
 	import * as Yup from 'yup';
 
 	import Tag from '~/atoms/Tag.svelte';
-
 	import Button from '~/atoms/Button.svelte';
 	import Input from '~/atoms/Input.svelte';
 
@@ -77,7 +76,9 @@
 			on:change={handleChange}
 			on:blur={handleChange}
 		/>
-	{:else}{/if}
+	{:else}
+		<label>Map position</label>
+	{/if}
 </form>
 
 <div class="buttons std-p">
