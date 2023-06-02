@@ -1,8 +1,5 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-
 	import { buildIcon } from '~/../utils/ui';
-	const dispatch = createEventDispatcher();
 
 	export let type = '';
 	export let color = 'white';
@@ -13,7 +10,7 @@
 </script>
 
 <button
-	on:click={() => dispatch('click')}
+	on:click
 	class:btn-circle={type === 'circle'}
 	class:btn-black={color === 'black'}
 	class:btn-orange={color === 'orange'}

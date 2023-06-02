@@ -7,6 +7,7 @@
 	import Button from '~/atoms/Button.svelte';
 	import Input from '~/atoms/Input.svelte';
 	import Map from '~/moleculas/Map.svelte';
+	import ImageLoader from '~/moleculas/ImageLoader.svelte';
 
 	export let categories = [];
 
@@ -19,7 +20,8 @@
 			description: '',
 			latitude: 35,
 			longitude: 57,
-			zoom: 7
+			zoom: 7,
+			images: []
 		},
 		validationSchema: Yup.object().shape({
 			category: Yup.string().required(),
@@ -106,6 +108,12 @@
 			zoom={$form.zoom}
 			centerMark
 			center={$form.latitude ? [$form.latitude, $form.longitude] : undefined}
+		/>
+		<label>Images</label>
+		<ImageLoader
+			images={$form.images}
+			on:add={({ detail: files }) =>
+				($form.images = [...$form.images, files.map(({ content }) => content)])}
 		/>
 	{/if}
 </form>
