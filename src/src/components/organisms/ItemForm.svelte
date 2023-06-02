@@ -13,7 +13,14 @@
 	let zoom;
 
 	const { form, errors, handleChange, handleSubmit, validateField } = createForm({
-		initialValues: { category: '', name: '', description: '', latitude: 0, longitude: 0, zoom: 0 },
+		initialValues: {
+			category: '',
+			name: '',
+			description: '',
+			latitude: 35,
+			longitude: 57,
+			zoom: 7
+		},
 		validationSchema: Yup.object().shape({
 			category: Yup.string().required(),
 			name: Yup.string().required().max(100),
@@ -97,6 +104,7 @@
 			containerClass="form-map"
 			on:move={onMapMove}
 			zoom={$form.zoom}
+			centerMark
 			center={$form.latitude ? [$form.latitude, $form.longitude] : undefined}
 		/>
 	{/if}

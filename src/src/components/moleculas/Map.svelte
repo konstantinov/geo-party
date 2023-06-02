@@ -4,8 +4,9 @@
 	import { onMount } from 'svelte';
 
 	export let containerClass;
-	export let center;
-	export let zoom;
+	export let center = undefined;
+	export let zoom = undefined;
+	export let centerMark = undefined;
 	let script;
 	let mapsInitialized = false;
 	const scriptNeeded = typeof ymaps === 'undefined';
@@ -38,5 +39,5 @@
 	{/if}
 </svelte:head>
 {#if mapsInitialized}
-	<Map {center} {zoom} {containerClass} on:move />
+	<Map {center} {centerMark} {zoom} {containerClass} on:move />
 {/if}
