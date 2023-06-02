@@ -16,9 +16,10 @@
 			controls: ['geolocationControl', 'typeSelector']
 		});
 
-		map.events.add('actiontickcomplete', (event) => {
-			const center = map.getCenter();
-			const zoom = map.getZoom();
+		map.events.add('boundschange', (event) => {
+			const center = event.get('newCenter');
+			const zoom = event.get('newZoom');
+
 			dispatch('move', { center, zoom });
 		});
 	});
