@@ -1,18 +1,19 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { createForm } from 'svelte-forms-lib';
-	import * as Yup from 'yup';
 
 	import Tag from '~/atoms/Tag.svelte';
 	import Button from '~/atoms/Button.svelte';
 	import Input from '~/atoms/Input.svelte';
 	import Map from '~/moleculas/Map.svelte';
 	import ImageLoader from '~/moleculas/ImageLoader.svelte';
+	import { itemValidationSchema as validationSchema } from '~/../schemas/item.js';
 
 	export let categories = [];
 
 	let zoom;
 
+	const dispatch = createEventDispatcher();
 	const { form, errors, handleChange, handleSubmit, validateField } = createForm({
 		initialValues: {
 			category: '',
@@ -23,20 +24,12 @@
 			zoom: 7,
 			images: []
 		},
-		validationSchema: Yup.object().shape({
-			category: Yup.string().required(),
-			name: Yup.string().required().max(100),
-			description: Yup.string().max(12000),
-			zoom: Yup.number().min(0).required(),
-			latitude: Yup.number().min(0).required(),
-			longitude: Yup.number().min(0).required()
-		}),
+		validationSchema,
 		onSubmit: (values) => {
-			alert(JSON.stringify(values));
+			dispatch('submit', values);
 		}
 	});
 
-	const dispatch = createEventDispatcher();
 	let step = 1;
 
 	const validateStep = async (step, done) => {
@@ -46,6 +39,8 @@
 			if (!($errors.name || $errors.category || $errors.description)) {
 				done();
 			}
+		} else {
+			handleSubmit();
 		}
 	};
 
@@ -60,63 +55,60 @@
 </script>
 
 <h1>Step {step} / 2</h1>
-<form on:submit={handleSubmit}>
-	{#if step === 1}
-		<label>
-			Category{#if $errors.category}<small>{$errors.category}</small>{/if}
-		</label>
-		<div class="tags-list">
-			{#each categories as category}
-				<Tag
-					text={category.name}
-					icon={category.icon}
-					on:click={async () => {
-						$form.category = category.id;
-						await validateField('category');
-					}}
-					color={$form.category === category.id ? 'orange' : 'white'}
-				/>
-			{/each}
-		</div>
-		<label for="name">
-			Name{#if $errors.name}<small>{$errors.name}</small>{/if}
-		</label>
-		<Input
-			id="name"
-			name="name"
-			bind:value={$form.name}
-			on:change={handleChange}
-			on:blur={handleChange}
-		/>
+{#if step === 1}
+	<label>
+		Category{#if $errors.category}<small>{$errors.category}</small>{/if}
+	</label>
+	<div class="tags-list">
+		{#each categories as category}
+			<Tag
+				text={category.name}
+				icon={category.icon}
+				on:click={async () => {
+					$form.category = category.id;
+					await validateField('category');
+				}}
+				color={$form.category === category.id ? 'orange' : 'white'}
+			/>
+		{/each}
+	</div>
+	<label for="name">
+		Name{#if $errors.name}<small>{$errors.name}</small>{/if}
+	</label>
+	<Input
+		id="name"
+		name="name"
+		bind:value={$form.name}
+		on:change={handleChange}
+		on:blur={handleChange}
+	/>
 
-		<label for="description">
-			Description{#if $errors.description}<small>{$errors.description}</small>{/if}
-		</label>
-		<Input
-			id="description"
-			name="description"
-			textarea
-			bind:value={$form.description}
-			on:change={handleChange}
-			on:blur={handleChange}
-		/>
-	{:else}
-		<label>Map position</label>
-		<Map
-			containerClass="form-map"
-			on:move={onMapMove}
-			zoom={$form.zoom}
-			centerMark
-			center={$form.latitude ? [$form.latitude, $form.longitude] : undefined}
-		/>
-		<label>Images</label>
-		<ImageLoader
-			images={$form.images}
-			on:add={({ detail: files }) =>
-				($form.images = [...$form.images, files.map(({ content }) => content)])}
-		/>
-	{/if}
-</form>
+	<label for="description">
+		Description{#if $errors.description}<small>{$errors.description}</small>{/if}
+	</label>
+	<Input
+		id="description"
+		name="description"
+		textarea
+		bind:value={$form.description}
+		on:change={handleChange}
+		on:blur={handleChange}
+	/>
+{:else}
+	<label>Map position</label>
+	<Map
+		containerClass="form-map"
+		on:move={onMapMove}
+		zoom={$form.zoom}
+		centerMark
+		center={$form.latitude ? [$form.latitude, $form.longitude] : undefined}
+	/>
+	<label>Images</label>
+	<ImageLoader
+		images={$form.images.map(({ content }) => content)}
+		on:add={({ detail: files }) => ($form.images = [...$form.images, ...files])}
+	/>
+{/if}
 
 <div class="buttons std-p">
 	<Button leftIcon="chevron-left" disabled={step === 1} text="Back" on:click={() => (step -= 1)} />

@@ -7,7 +7,6 @@ export async function GET({ cookies, url }) {
 	const sessionId = cookies.get('sid');
 
 	if (sessionId) {
-		console.log(sessionId);
 		await Session.deleteOne({ _id: new mongoose.Types.ObjectId(sessionId) });
 	}
 

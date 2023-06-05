@@ -8,6 +8,8 @@
 
 	const dispatch = createEventDispatcher();
 
+	$: console.log(images);
+
 	let input;
 
 	const onFileChange = async () => {
@@ -64,20 +66,28 @@
 		height: 72px;
 		width: 72px;
 		border-radius: 8px;
-		border: 1px dashed #979797;
+		border: 1px solid #979797;
 		display: block;
 		box-sizing: border-box;
-		object-fit: contain;
+		object-fit: cover;
 	}
 
 	.Input > :global(button) {
 		height: 72px;
 		width: 72px;
 		border-radius: 8px;
-		border: 1px dashed #979797;
+		border: 1px solid #fc9d2d;
 		padding: 0;
 		justify-content: center;
 		outline: none;
+		color: #fc9d2d;
+	}
+
+	.Input > :global(button:hover) {
+		color: #fff;
+	}
+	.Input > :global(button:hover) {
+		background: rgba(252, 156, 45, 0.6) !important;
 	}
 
 	.Input {

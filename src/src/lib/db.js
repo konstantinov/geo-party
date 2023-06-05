@@ -46,6 +46,26 @@ const categorySchema = new Schema(
 	}
 );
 
+
+const itemSchema = new Schema(
+	{
+		categoryId: { type: mongoose.Types.ObjectId, index: true },
+		name: String,
+		description: String,
+		latitude: Number,
+		longitude: Number,
+		zoom: Number,
+		updatedAt: Date,
+		createdAt: { type: Date, default: () => new Date() }
+	},
+	{
+		toJSON: {
+			transform: transformId
+		}
+	}
+);
+
 export const User = model('users', userSchema);
 export const Session = model('sessions', sessionSchema);
 export const Category = model('categories', categorySchema);
+export const Item = model('items', itemSchema);
