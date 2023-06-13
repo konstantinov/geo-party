@@ -5,12 +5,16 @@ import { MONGO_URL } from '$env/static/private';
 
 export const db = await mongoose.connect(MONGO_URL);
 
-const transformId = (doc, ret) => {
-	ret.id = ret._id.toString();
-	delete ret._id;
-	delete ret.password;
-	delete ret.__v;
-};
+const transformId =
+	(...fields) =>
+	(doc, ret) => {
+		ret.id = ret._id.toString();
+		delete ret._id;
+		delete ret.password;
+		delete ret.__v;
+		// console.log({ fields, ret)});
+		fields?.forEach((field) => (ret[field] = ret[field].toString()));
+	};
 
 const userSchema = new Schema(
 	{
@@ -23,7 +27,7 @@ const userSchema = new Schema(
 	},
 	{
 		toJSON: {
-			transform: transformId
+			transform: transformId()
 		}
 	}
 );
@@ -41,15 +45,15 @@ const categorySchema = new Schema(
 	},
 	{
 		toJSON: {
-			transform: transformId
+			transform: transformId()
 		}
 	}
 );
 
-
 const itemSchema = new Schema(
 	{
 		categoryId: { type: mongoose.Types.ObjectId, index: true },
+		userId: { type: mongoose.Types.ObjectId, index: true },
 		name: String,
 		description: String,
 		latitude: Number,
@@ -60,12 +64,24 @@ const itemSchema = new Schema(
 	},
 	{
 		toJSON: {
-			transform: transformId
+			transform: transformId('userId')
 		}
 	}
 );
+
+const imageSchema = new Schema({
+	itemId: { type: mongoose.Types.ObjectId, index: true },
+	uuid: String,
+	mimeType: String,
+	size: Number,
+	name: String,
+	height: Number,
+	width: Number,
+	createdAt: { type: Date, default: () => new Date() }
+})
 
 export const User = model('users', userSchema);
 export const Session = model('sessions', sessionSchema);
 export const Category = model('categories', categorySchema);
 export const Item = model('items', itemSchema);
+export const Image = model('images', imageSchema);

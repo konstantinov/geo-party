@@ -26,6 +26,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@uploadcare/upload-client": "^6.6.1",
 		"axios": "^1.4.0",
 		"mongoose": "^7.2.1",
 		"svelte-forms-lib": "^2.0.1",

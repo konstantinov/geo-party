@@ -8,8 +8,6 @@
 
 	const dispatch = createEventDispatcher();
 
-	$: console.log(images);
-
 	let input;
 
 	const onFileChange = async () => {

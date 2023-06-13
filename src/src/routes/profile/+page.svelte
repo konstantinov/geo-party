@@ -11,6 +11,8 @@
 
 	$: origin = $page.url.origin;
 
+	console.log(data);
+
 	const onLogout = () => goto('/profile/logout');
 
 	const onLogin = () =>
@@ -30,6 +32,9 @@
 				on:click={onLogout}
 			/>
 		</div>
+		<div class="std-p std-b">
+			<h1>My items</h1>
+		</div>
 	{:else}
 		You didn't sign in so far.
 		<Button leftIcon="fa-brands fa-google" text="Sign in" color="black" on:click={onLogin} />
@@ -40,8 +45,14 @@
 	.content {
 		display: flex;
 		flex-flow: column;
-		gap: 40px;
+		gap: 20px;
 		align-items: center;
+	}
+
+	@media (min-width: 600px) {
+		.content {
+			gap: 40px;
+		}
 	}
 
 	.std-b {

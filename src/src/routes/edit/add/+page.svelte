@@ -8,7 +8,7 @@
 	export let data;
 
 	const onSubmit = ({ detail: data }) => {
-		axios.post('/edit', data).then(({ id }) => goto(`/item/${id}`));
+		axios.post('/edit', data).then(({ data: { id } }) => goto(`/item/${id}`));
 	};
 </script>
 
