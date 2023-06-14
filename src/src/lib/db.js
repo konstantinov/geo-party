@@ -6,14 +6,20 @@ import { MONGO_URL } from '$env/static/private';
 export const db = await mongoose.connect(MONGO_URL);
 
 const transformId =
-	(...fields) =>
+	
 	(doc, ret) => {
 		ret.id = ret._id.toString();
 		delete ret._id;
 		delete ret.password;
 		delete ret.__v;
-		// console.log({ fields, ret)});
-		fields?.forEach((field) => (ret[field] = ret[field].toString()));
+		
+		Object.keys(ret).forEach(field => {
+			if (ret[field] instanceof mongoose.Types.ObjectId) {
+				ret[field] = ret[field].toString();
+			} else if (ret[field]['toJSON']) {
+				ret[field] = ret[field].toJSON();
+			}
+		})
 	};
 
 const userSchema = new Schema(
@@ -27,7 +33,7 @@ const userSchema = new Schema(
 	},
 	{
 		toJSON: {
-			transform: transformId()
+			transform: transformId
 		}
 	}
 );
@@ -45,7 +51,7 @@ const categorySchema = new Schema(
 	},
 	{
 		toJSON: {
-			transform: transformId()
+			transform: transformId
 		}
 	}
 );
@@ -53,7 +59,7 @@ const categorySchema = new Schema(
 const itemSchema = new Schema(
 	{
 		categoryId: { type: mongoose.Types.ObjectId, index: true },
-		userId: { type: mongoose.Types.ObjectId, index: true },
+		userId: { type: mongoose.Types.ObjectId, index: true, ref: 'users' },
 		name: String,
 		description: String,
 		latitude: Number,
@@ -64,13 +70,31 @@ const itemSchema = new Schema(
 	},
 	{
 		toJSON: {
-			transform: transformId('userId')
+			transform: (doc, ret) => {
+				transformId(doc, ret);
+
+
+					doc.images = doc.images?.map(image => image.toJSON());
+
+			},
+		},
+		virtuals: {
+			images: {
+				options: {
+					ref: 'images',
+					localField: '_id',
+					foreignField: 'itemId',
+				},
+				
+			}
 		}
 	}
 );
 
+
+
 const imageSchema = new Schema({
-	itemId: { type: mongoose.Types.ObjectId, index: true },
+	itemId: { type: mongoose.Types.ObjectId, index: true, ref: 'items' },
 	uuid: String,
 	mimeType: String,
 	size: Number,
@@ -85,3 +109,4 @@ export const Session = model('sessions', sessionSchema);
 export const Category = model('categories', categorySchema);
 export const Item = model('items', itemSchema);
 export const Image = model('images', imageSchema);
+

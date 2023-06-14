@@ -11,8 +11,6 @@
 
 	$: origin = $page.url.origin;
 
-	console.log(data);
-
 	const onLogout = () => goto('/profile/logout');
 
 	const onLogin = () =>
