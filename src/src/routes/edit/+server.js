@@ -29,7 +29,7 @@ export const POST = async ({ locals, request }) => {
 		{ upsert: true }
 	);
 
-	const itemId =  id || result.upsertedId?.toString();
+	const itemId = id || result.upsertedId?.toString();
 
 	await Promise.all(
 		item.images.map(async (image) => {
@@ -43,7 +43,8 @@ export const POST = async ({ locals, request }) => {
 				contentType: fileData.data,
 				store: true,
 				metadata: {
-					itemId, userId: locals.user.id
+					itemId,
+					userId: locals.user.id
 				}
 			});
 
@@ -54,7 +55,7 @@ export const POST = async ({ locals, request }) => {
 				size: image.size,
 				height: result.imageInfo?.height,
 				width: result.imageInfo?.width,
-				mimeType: result.contentInfo?.mime?.mime,
+				mimeType: result.contentInfo?.mime?.mime
 			});
 		})
 	);

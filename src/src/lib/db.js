@@ -5,22 +5,20 @@ import { MONGO_URL } from '$env/static/private';
 
 export const db = await mongoose.connect(MONGO_URL);
 
-const transformId =
-	
-	(doc, ret) => {
-		ret.id = ret._id.toString();
-		delete ret._id;
-		delete ret.password;
-		delete ret.__v;
-		
-		Object.keys(ret).forEach(field => {
-			if (ret[field] instanceof mongoose.Types.ObjectId) {
-				ret[field] = ret[field].toString();
-			} else if (ret[field]['toJSON']) {
-				ret[field] = ret[field].toJSON();
-			}
-		})
-	};
+const transformId = (doc, ret) => {
+	ret.id = ret._id.toString();
+	delete ret._id;
+	delete ret.password;
+	delete ret.__v;
+
+	Object.keys(ret).forEach((field) => {
+		if (ret[field] instanceof mongoose.Types.ObjectId) {
+			ret[field] = ret[field].toString();
+		} else if (ret[field]['toJSON']) {
+			ret[field] = ret[field].toJSON();
+		}
+	});
+};
 
 const userSchema = new Schema(
 	{
@@ -70,28 +68,30 @@ const itemSchema = new Schema(
 	},
 	{
 		toJSON: {
+			virtuals: true,
 			transform: (doc, ret) => {
 				transformId(doc, ret);
 
+				ret.images = ret.images?.map((image) => {
+					const result = { ...image };
 
-					doc.images = doc.images?.map(image => image.toJSON());
+					transformId(image, result);
 
-			},
+					return result;
+				});
+			}
 		},
 		virtuals: {
 			images: {
 				options: {
 					ref: 'images',
 					localField: '_id',
-					foreignField: 'itemId',
-				},
-				
+					foreignField: 'itemId'
+				}
 			}
 		}
 	}
 );
-
-
 
 const imageSchema = new Schema({
 	itemId: { type: mongoose.Types.ObjectId, index: true, ref: 'items' },
@@ -102,11 +102,10 @@ const imageSchema = new Schema({
 	height: Number,
 	width: Number,
 	createdAt: { type: Date, default: () => new Date() }
-})
+});
 
 export const User = model('users', userSchema);
 export const Session = model('sessions', sessionSchema);
 export const Category = model('categories', categorySchema);
 export const Item = model('items', itemSchema);
 export const Image = model('images', imageSchema);
-

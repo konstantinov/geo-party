@@ -5,6 +5,7 @@
 
 	import Button from '~/atoms/Button.svelte';
 	import Avatar from '~/atoms/Avatar.svelte';
+	import ItemCard from '~/moleculas/ItemCard.svelte';
 
 	let origin;
 	export let data;
@@ -33,6 +34,11 @@
 		<div class="std-p std-b">
 			<h1>My items</h1>
 		</div>
+		<div class="std-w items-list">
+			{#each data.items as item}
+				<ItemCard {item} on:click={() => goto(`/item/${item.id}/`)} />
+			{/each}
+		</div>
 	{:else}
 		You didn't sign in so far.
 		<Button leftIcon="fa-brands fa-google" text="Sign in" color="black" on:click={onLogin} />
@@ -51,6 +57,10 @@
 		.content {
 			gap: 40px;
 		}
+
+		:global(.Item) {
+			flex: calc((100% - 50px) / 3) 0 0;
+		}
 	}
 
 	.std-b {
@@ -60,5 +70,11 @@
 		gap: 20px;
 		align-items: center;
 		box-sizing: border-box;
+	}
+
+	.items-list {
+		display: flex;
+		flex-flow: row wrap;
+		gap: 25px;
 	}
 </style>
