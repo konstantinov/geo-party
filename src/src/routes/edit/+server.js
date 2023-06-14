@@ -8,6 +8,7 @@ import { uploadDirect } from '@uploadcare/upload-client';
 
 export const POST = async ({ locals, request }) => {
 	const item = await request.json();
+
 	if (!locals.user) {
 		throw error(403, 'Not authorized');
 	}
@@ -17,7 +18,8 @@ export const POST = async ({ locals, request }) => {
 	} catch (e) {
 		throw error(400, e.message);
 	}
-
+	item.categoryId = item.category;
+	delete item.category;
 	const id = item.id;
 	delete item.id;
 

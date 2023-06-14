@@ -14,7 +14,7 @@ const transformId = (doc, ret) => {
 	Object.keys(ret).forEach((field) => {
 		if (ret[field] instanceof mongoose.Types.ObjectId) {
 			ret[field] = ret[field].toString();
-		} else if (ret[field]['toJSON']) {
+		} else if (ret[field] && ret[field]['toJSON']) {
 			ret[field] = ret[field].toJSON();
 		}
 	});
@@ -56,7 +56,7 @@ const categorySchema = new Schema(
 
 const itemSchema = new Schema(
 	{
-		categoryId: { type: mongoose.Types.ObjectId, index: true },
+		categoryId: { type: mongoose.Types.ObjectId, index: true, ref: 'categories' },
 		userId: { type: mongoose.Types.ObjectId, index: true, ref: 'users' },
 		name: String,
 		description: String,
@@ -82,6 +82,14 @@ const itemSchema = new Schema(
 			}
 		},
 		virtuals: {
+			category: {
+				options: {
+					ref: 'categories',
+					localField: 'categoryId',
+					foreignField: '_id',
+					justOne: true
+				}
+			},
 			images: {
 				options: {
 					ref: 'images',

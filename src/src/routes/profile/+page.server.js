@@ -5,6 +5,7 @@ export const load = async ({ locals }) => {
 	if (locals.user) {
 		const items = await Item.find({ userId: locals.user.id }, {}, { sort: { name: 1 } })
 			.populate('images')
+			.populate('category')
 			.then((cats) => cats.map((cat) => cat.toJSON()));
 
 		return {
