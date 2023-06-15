@@ -1,13 +1,16 @@
 <script>
 	import SearchHeader from '~/organisms/SearchHeader.svelte';
 	import Button from '~/atoms/Button.svelte';
+	import { debounce } from '~/../utils/misc';
 
 	import { goto } from '$app/navigation';
 
 	export let data;
+
+	let gotoSearch = debounce((query, categories)=> goto(`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}`), 1500);
 </script>
 
-<SearchHeader {...data} on:search={({ detail: { query, categories } }) => goto(`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}`)} />
+<SearchHeader {...data} on:search={({ detail: { query, categories } }) => gotoSearch(query, categories)} />
 <main class="std-w std-p">
 	<Button type="circle" leftIcon="plus" color="orange" on:click={() => goto('/edit/add')} />
 </main>
