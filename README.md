@@ -8,6 +8,8 @@ PUBLIC_YANDEX_API_KEY=
 PUBLIC_SESSION_TTL=2592000
 
 MONGO_URL=mongodb://mongo/geo
+UPLOADCARE_KEY=
+ITEMS_PAGE_SIZE=50
 ```
 
 To start develop environment
