@@ -1,29 +1,18 @@
 <script>
-	import SearchBox from '~/moleculas/SearchBox.svelte';
+	import SearchHeader from '~/organisms/SearchHeader.svelte';
 	import Button from '~/atoms/Button.svelte';
 
 	import { goto } from '$app/navigation';
-	import Avatar from '~/atoms/Avatar.svelte';
 
 	export let data;
 </script>
 
-<header class="std-w std-p">
-	<SearchBox categories={data.categories} />
-	<Avatar user={data.user} clickable on:click={() => goto('/profile')} />
-</header>
+<SearchHeader {...data} on:search={({ detail: { query, categories } }) => goto(`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}`)} />
 <main class="std-w std-p">
 	<Button type="circle" leftIcon="plus" color="orange" on:click={() => goto('/edit/add')} />
 </main>
 
 <style>
-	header {
-		display: flex;
-		flex-flow: row wrap;
-		gap: 10px;
-		align-items: start;
-	}
-
 	main {
 		flex: 1;
 		position: relative;
@@ -46,10 +35,6 @@
 			height: 50px !important;
 			width: 50px !important;
 			font-size: 130%;
-		}
-
-		header {
-			gap: 20px;
 		}
 	}
 </style>
