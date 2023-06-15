@@ -1,6 +1,6 @@
 <script>
 	import Button from '~/atoms/Button.svelte';
-	import { page } from '$app/stores';
+	import { page, navigating } from '$app/stores';
 	import { goto } from '$app/navigation';
 
 	let pathname;
@@ -33,6 +33,11 @@
 
 <div class="container">
 	<div class="content">
+		{#if $navigating}
+			<div class="loader">
+				<i class="fas fa-cog fa-spin" />
+			</div>
+		{/if}
 		<slot />
 	</div>
 
@@ -53,6 +58,21 @@
 	footer {
 		width: 100%;
 		background: #fff;
+	}
+	.loader {
+		align-items: center;
+		justify-content: center;
+		display: flex;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		backdrop-filter: blur(6px);
+	}
+
+	.loader > i {
+		font-size: 52px;
 	}
 	.toolbar {
 		display: flex;
@@ -92,5 +112,6 @@
 		width: 100%;
 		flex: 1;
 		overflow: auto;
+		position: relative;
 	}
 </style>

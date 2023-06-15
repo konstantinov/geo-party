@@ -16,8 +16,7 @@
 		tags.forEach((tag) => (tagsSelected[tag.id] = true));
 	}
 
-
-	$:  {
+	$: {
 		if (selectedCategories) tags = categories.filter(({ id }) => selectedCategories.includes(id));
 	}
 
@@ -36,7 +35,7 @@
 	let filterOpen = false;
 
 	$: filterOpen = selectedCategories?.length > 0;
-	
+
 	const onToggleFilter = () => {
 		filterOpen = !filterOpen;
 	};

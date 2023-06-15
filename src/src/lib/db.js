@@ -58,8 +58,8 @@ const itemSchema = new Schema(
 	{
 		categoryId: { type: mongoose.Types.ObjectId, index: true, ref: 'categories' },
 		userId: { type: mongoose.Types.ObjectId, index: true, ref: 'users' },
-		name: String,
-		description: String,
+		name: { type: String, text: true },
+		description: { type: String, text: true },
 		latitude: Number,
 		longitude: Number,
 		zoom: Number,

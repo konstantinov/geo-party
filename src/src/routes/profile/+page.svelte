@@ -58,8 +58,9 @@
 			gap: 40px;
 		}
 
-		:global(.Item) {
+		.items-list > :global(.Item) {
 			flex: calc((100% - 50px) / 3) 0 0;
+			box-sizing: border-box;
 		}
 	}
 

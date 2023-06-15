@@ -5,7 +5,6 @@
 	import Avatar from '~/atoms/Avatar.svelte';
 
 	export let user, categories, selectedCategories, query;
-
 </script>
 
 <header class="std-w std-p">

@@ -7,10 +7,17 @@
 
 	export let data;
 
-	let gotoSearch = debounce((query, categories)=> goto(`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}`), 1500);
+	let gotoSearch = debounce(
+		(query, categories) =>
+			goto(`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}`),
+		1500
+	);
 </script>
 
-<SearchHeader {...data} on:search={({ detail: { query, categories } }) => gotoSearch(query, categories)} />
+<SearchHeader
+	{...data}
+	on:search={({ detail: { query, categories } }) => gotoSearch(query, categories)}
+/>
 <main class="std-w std-p">
 	<Button type="circle" leftIcon="plus" color="orange" on:click={() => goto('/edit/add')} />
 </main>
