@@ -25,14 +25,13 @@ const userSchema = new Schema(
 		name: String,
 		email: { type: String, unique: true },
 		googleId: { type: String, unique: true },
-		avatar: String,
-		createdAt: { type: Date, default: () => new Date() },
-		updatedAt: Date
+		avatar: String
 	},
 	{
 		toJSON: {
 			transform: transformId
-		}
+		},
+		timestamps: true
 	}
 );
 
@@ -54,6 +53,30 @@ const categorySchema = new Schema(
 	}
 );
 
+const statSchema = new Schema(
+	{
+		itemId: { type: mongoose.Types.ObjectId, unique: true, ref: 'items' },
+		viewsData: {
+			type: Object,
+			default: () => ({})
+		}
+	},
+	{
+		toJSON: {
+			virtuals: true,
+			transform: transformId
+		},
+		timestamps: true,
+		virtuals: {
+			views: {
+				get() {
+					return Object.keys(this?.viewsData).length;
+				}
+			}
+		}
+	}
+);
+
 const itemSchema = new Schema(
 	{
 		categoryId: { type: mongoose.Types.ObjectId, index: true, ref: 'categories' },
@@ -62,9 +85,7 @@ const itemSchema = new Schema(
 		description: String,
 		latitude: Number,
 		longitude: Number,
-		zoom: Number,
-		updatedAt: Date,
-		createdAt: { type: Date, default: () => new Date() }
+		zoom: Number
 	},
 	{
 		toJSON: {
@@ -81,6 +102,7 @@ const itemSchema = new Schema(
 				});
 			}
 		},
+		timestamps: true,
 		virtuals: {
 			category: {
 				options: {
@@ -119,3 +141,4 @@ export const Session = model('sessions', sessionSchema);
 export const Category = model('categories', categorySchema);
 export const Item = model('items', itemSchema);
 export const Image = model('images', imageSchema);
+export const Stat = model('stats', statSchema);

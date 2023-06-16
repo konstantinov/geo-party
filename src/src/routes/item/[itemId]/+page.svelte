@@ -6,6 +6,10 @@
 	const itemDot = [data.item.latitude, data.item.longitude];
 </script>
 
+<svelte:head>
+	<title>{data.item.name} / {data.item.category.name}</title>
+</svelte:head>
+
 <div class="std-w">
 	{#each data.item.images as image}
 		<img src={buildImage(image.uuid, { size: '1280x1280' })} />
@@ -17,6 +21,7 @@
 			<p>{line}</p>
 		{/each}
 		<Map center={itemDot} containerClass="item-map" dots={[itemDot]} />
+		<div class="stat"><i class="fa fa-eye" /> {data.stat?.views ?? 0}</div>
 	</div>
 </div>
 
@@ -55,5 +60,13 @@
 			border-radius: 50px;
 			padding: 50px 20px;
 		}
+	}
+
+	.stat {
+		padding: 10px 0;
+	}
+
+	.stat > i {
+		color: #fc9d2d;
 	}
 </style>

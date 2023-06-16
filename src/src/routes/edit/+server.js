@@ -1,4 +1,4 @@
-import { error } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 
 import { itemValidationSchema } from '~/../schemas/item.js';
 import { UPLOADCARE_KEY } from '$env/static/private';
@@ -62,5 +62,5 @@ export const POST = async ({ locals, request }) => {
 		})
 	);
 
-	return new Response(JSON.stringify({ status: 'ok', id: itemId }));
+	return json({ status: 'ok', id: itemId });
 };
