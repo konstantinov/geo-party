@@ -14,7 +14,14 @@ export const load = async ({ url }) => {
 		const page = parseInt(url.searchParams.get('page')) || 1;
 		const pageSize = parseInt(ITEMS_PAGE_SIZE);
 
-		items = await Item.find({ $text: { $search: query } }, { score: { $meta: 'textScore' } })
+		const categoriesQuery = url.searchParams.get('categoryIds')
+			? { categoryId: { $in: url.searchParams.get('categoryIds').split(/,/) } }
+			: undefined;
+
+		items = await Item.find(
+			{ $text: { $search: query }, ...categoriesQuery },
+			{ score: { $meta: 'textScore' } }
+		)
 			.sort({
 				score: { $meta: 'textScore' }
 			})

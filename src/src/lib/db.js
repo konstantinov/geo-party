@@ -58,8 +58,8 @@ const itemSchema = new Schema(
 	{
 		categoryId: { type: mongoose.Types.ObjectId, index: true, ref: 'categories' },
 		userId: { type: mongoose.Types.ObjectId, index: true, ref: 'users' },
-		name: { type: String, text: true },
-		description: { type: String, text: true },
+		name: String,
+		description: String,
 		latitude: Number,
 		longitude: Number,
 		zoom: Number,
@@ -100,6 +100,8 @@ const itemSchema = new Schema(
 		}
 	}
 );
+
+itemSchema.index({ name: 'text', description: 'text' });
 
 const imageSchema = new Schema({
 	itemId: { type: mongoose.Types.ObjectId, index: true, ref: 'items' },
