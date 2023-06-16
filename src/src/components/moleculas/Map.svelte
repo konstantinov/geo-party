@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 
 	export let containerClass;
+	export let dots = [];
 	export let center = undefined;
 	export let zoom = undefined;
 	export let centerMark = undefined;
@@ -39,5 +40,5 @@
 	{/if}
 </svelte:head>
 {#if mapsInitialized}
-	<Map {center} {centerMark} {zoom} {containerClass} on:move />
+	<Map {center} {centerMark} {zoom} {containerClass} {dots} on:move />
 {/if}

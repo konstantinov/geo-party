@@ -5,6 +5,7 @@
 	export let center = [37, 55];
 
 	export let zoom = 7;
+	export let dots = [];
 	export let centerMark;
 	const dispatch = createEventDispatcher();
 	let centerMarkObject;
@@ -18,10 +19,28 @@
 			controls: ['geolocationControl', 'typeSelector']
 		});
 
+		const iconLayout = ymaps.templateLayoutFactory.createClass(`<i class="far fa-circle-dot"></i>`);
+
+		if (dots.length) {
+			dots.forEach((dot) => {
+				map.geoObjects.add(
+					new ymaps.Placemark(
+						dot,
+						{},
+						{
+							iconLayout,
+							iconShape: {
+								type: 'Circle',
+								coordinates: [0, 0],
+								radius: 18
+							}
+						}
+					)
+				);
+			});
+		}
+
 		if (centerMark) {
-			const iconLayout = ymaps.templateLayoutFactory.createClass(
-				`<i class="far fa-circle-dot"></i>`
-			);
 			centerMarkObject = new ymaps.Placemark(
 				center,
 				{},
