@@ -6,6 +6,7 @@ export const load = async ({ params, locals }) => {
 	const item = await Item.findById(params.itemId)
 		.populate('images')
 		.populate('category')
+		.populate('stat')
 		.then((item) => item?.toJSON());
 
 	if (item) {

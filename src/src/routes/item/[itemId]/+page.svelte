@@ -1,5 +1,6 @@
 <script>
 	import Map from '~/moleculas/Map.svelte';
+	import ItemStat from '~/moleculas/ItemStat.svelte';
 	import { buildImage } from '~/../utils/ui';
 	export let data;
 
@@ -21,7 +22,7 @@
 			<p>{line}</p>
 		{/each}
 		<Map center={itemDot} containerClass="item-map" dots={[itemDot]} />
-		<div class="stat"><i class="fa fa-eye" /> {data.stat?.views ?? 0}</div>
+		<div class="stat"><ItemStat category={data.item.category} views={data.item.stat?.views} /></div>
 	</div>
 </div>
 
@@ -64,9 +65,5 @@
 
 	.stat {
 		padding: 10px 0;
-	}
-
-	.stat > i {
-		color: #fc9d2d;
 	}
 </style>

@@ -118,6 +118,14 @@ const itemSchema = new Schema(
 					localField: '_id',
 					foreignField: 'itemId'
 				}
+			},
+			stat: {
+				options: {
+					ref: 'stats',
+					localField: '_id',
+					foreignField: 'itemId',
+					justOne: true
+				}
 			}
 		}
 	}
