@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { createForm } from 'svelte-forms-lib';
-
+	import { buildImage } from '~/../utils/ui';
 	import Tag from '~/atoms/Tag.svelte';
 	import Button from '~/atoms/Button.svelte';
 	import Input from '~/atoms/Input.svelte';
@@ -11,11 +11,13 @@
 
 	export let categories = [];
 
+	export let data = undefined;
+
 	let zoom;
 
 	const dispatch = createEventDispatcher();
 	const { form, errors, handleChange, handleSubmit, validateField } = createForm({
-		initialValues: {
+		initialValues: data || {
 			category: '',
 			name: '',
 			description: '',
@@ -105,7 +107,9 @@
 	/>
 	<label>Images</label>
 	<ImageLoader
-		images={$form.images.map(({ content }) => content)}
+		images={$form.images.map(({ content, uuid }) =>
+			uuid ? buildImage(uuid, { size: '200x200' }) : content
+		)}
 		on:add={({ detail: files }) => ($form.images = [...$form.images, ...files])}
 	/>
 {/if}

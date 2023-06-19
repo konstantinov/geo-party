@@ -2,6 +2,10 @@
 	import Button from '~/atoms/Button.svelte';
 	import { page, navigating } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { setContext } from 'svelte';
+
+	export let data;
+	setContext('user', data.user);
 
 	let pathname;
 

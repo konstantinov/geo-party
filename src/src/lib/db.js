@@ -80,7 +80,7 @@ const statSchema = new Schema(
 const itemSchema = new Schema(
 	{
 		categoryId: { type: mongoose.Types.ObjectId, index: true, ref: 'categories' },
-		userId: { type: mongoose.Types.ObjectId, index: true, ref: 'users' },
+		userId: { type: mongoose.Types.ObjectId, index: true, ref: 'users', required: true },
 		name: String,
 		description: String,
 		latitude: Number,

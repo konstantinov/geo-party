@@ -4,12 +4,12 @@
 	import { goto } from '$app/navigation';
 	import Avatar from '~/atoms/Avatar.svelte';
 
-	export let user, categories, selectedCategories, query;
+	export let categories, selectedCategories, query;
 </script>
 
 <header class="std-w std-p">
 	<SearchBox {categories} {query} {selectedCategories} on:search />
-	<Avatar {user} clickable on:click={() => goto('/profile')} />
+	<Avatar clickable on:click={() => goto('/profile')} />
 </header>
 
 <style>

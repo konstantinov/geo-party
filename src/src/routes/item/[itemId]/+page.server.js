@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import mongoose from 'mongoose';
+
 import { Item, Stat } from '~/../lib/db';
 
 export const load = async ({ params, locals }) => {

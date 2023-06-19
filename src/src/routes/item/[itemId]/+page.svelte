@@ -2,9 +2,15 @@
 	import Map from '~/moleculas/Map.svelte';
 	import ItemStat from '~/moleculas/ItemStat.svelte';
 	import { buildImage } from '~/../utils/ui';
+	import { getContext } from 'svelte';
+	import Button from '~/atoms/Button.svelte';
+	import { goto } from '$app/navigation';
+
 	export let data;
 
 	const itemDot = [data.item.latitude, data.item.longitude];
+
+	const user = getContext('user');
 </script>
 
 <svelte:head>
@@ -16,7 +22,13 @@
 		<img src={buildImage(image.uuid, { size: '1280x1280' })} />
 	{/each}
 	<div class="item-card-details std-p std-b">
-		<h2>{data.item.name}</h2>
+		<h2>
+			{data.item.name}
+
+			{#if data.item.userId === user.id}
+				<Button leftIcon="pen" on:click={() => goto(`/edit/${data.item.id}`)} />
+			{/if}
+		</h2>
 
 		{#each data.item.description.split(/\n/) as line}
 			<p>{line}</p>
@@ -36,6 +48,20 @@
 
 	h2 {
 		margin-bottom: 10px;
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		gap: 20px;
+	}
+
+	h2 > :global(button) {
+		color: #fc9d2d !important;
+	}
+
+	h2 > :global(button:hover) {
+		background: rgba(252, 156, 45, 0.6) !important;
+		color: #fff !important;
+		transition: ease-in-out 0.3s;
 	}
 
 	p {

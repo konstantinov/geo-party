@@ -2,6 +2,7 @@
 	import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { getContext } from 'svelte';
 
 	import Button from '~/atoms/Button.svelte';
 	import Avatar from '~/atoms/Avatar.svelte';
@@ -9,6 +10,8 @@
 
 	let origin;
 	export let data;
+
+	const user = getContext('user');
 
 	$: origin = $page.url.origin;
 
@@ -19,11 +22,11 @@
 </script>
 
 <div class="content std-w std-p">
-	<Avatar user={data.user} />
-	{#if data.user}
+	<Avatar />
+	{#if user}
 		<div class="std-p std-b">
-			<h1>{data.user.name}</h1>
-			<h1>{data.user.email}</h1>
+			<h1>{user.name}</h1>
+			<h1>{user.email}</h1>
 			<Button
 				leftIcon="arrow-right-from-bracket"
 				text="Sign out"

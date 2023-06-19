@@ -1,7 +1,8 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	export let user;
+	import { createEventDispatcher, getContext } from 'svelte';
+
 	export let clickable = false;
+	const user = getContext('user');
 
 	const dispatch = createEventDispatcher();
 </script>
