@@ -33,8 +33,11 @@
 </script>
 
 <div class="Input">
-	{#each images as image}
-		<img src={image} alt="" />
+	{#each images as image, index}
+		<div class="image-container" on:click={() => dispatch('remove', { index })}>
+			<img src={image} alt="" />
+			<i class="fa fa-trash" />
+		</div>
 	{/each}
 
 	<Button
@@ -60,11 +63,44 @@
 		display: none;
 	}
 
-	.Input > img {
-		height: 72px;
-		width: 72px;
+	.image-container {
 		border-radius: 8px;
 		border: 1px solid #979797;
+		overflow: hidden;
+		transition: ease-in-out 0.3s;
+		position: relative;
+		background: #000;
+	}
+
+	.image-container > .fa {
+		opacity: 0;
+		font-size: 32px;
+		transition: ease-in-out 0.3s;
+		position: absolute;
+		color: #fff;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.image-container:hover > .fa {
+		opacity: 1;
+	}
+
+	.image-container:hover {
+		cursor: pointer;
+		transition: ease-in-out 0.3s;
+	}
+	.image-container > img {
+		transition: ease-in-out 0.3s;
+	}
+	.image-container:hover > img {
+		opacity: 0.5;
+	}
+
+	.Input img {
+		height: 72px;
+		width: 72px;
 		display: block;
 		box-sizing: border-box;
 		object-fit: cover;

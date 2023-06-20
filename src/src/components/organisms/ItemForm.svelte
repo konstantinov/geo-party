@@ -110,6 +110,8 @@
 		images={$form.images.map(({ content, uuid }) =>
 			uuid ? buildImage(uuid, { size: '200x200' }) : content
 		)}
+		on:remove={({ detail: { index } }) =>
+			($form.images = $form.images.filter((_, i) => i !== index))}
 		on:add={({ detail: files }) => ($form.images = [...$form.images, ...files])}
 	/>
 {/if}

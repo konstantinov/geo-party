@@ -1,10 +1,11 @@
 import { error, json } from '@sveltejs/kit';
 
 import { itemValidationSchema } from '~/../schemas/item.js';
-import { UPLOADCARE_KEY } from '$env/static/private';
+import { UPLOADCARE_KEY, UPLOADCARE_PRIVATE_KEY } from '$env/static/private';
 import { Item, Image } from '~/../lib/db';
 import mongoose from 'mongoose';
 import { uploadDirect } from '@uploadcare/upload-client';
+import { deleteFile, UploadcareSimpleAuthSchema } from '@uploadcare/rest-client';
 
 export const POST = async ({ locals, request }) => {
 	const item = await request.json();
@@ -36,12 +37,27 @@ export const POST = async ({ locals, request }) => {
 	const imageIds = item.images.filter(({ id }) => id).map(({ id }) => id);
 
 	await Promise.all([
-		imageIds.length > 0
-			? Image.deleteMany({
-					itemId: id,
-					_id: { $nin: imageIds }
-			  })
-			: undefined,
+		(async () => {
+			const uploadcareSimpleAuthSchema = new UploadcareSimpleAuthSchema({
+				publicKey: UPLOADCARE_KEY,
+				secretKey: UPLOADCARE_PRIVATE_KEY
+			});
+			const images = await Image.find({ itemId: id, _id: { $nin: imageIds } });
+
+			await Promise.all(
+				images.map((image) =>
+					Promise.all([
+						deleteFile(
+							{
+								uuid: image.uuid
+							},
+							{ authSchema: uploadcareSimpleAuthSchema }
+						),
+						Image.deleteOne({ _id: image.id })
+					])
+				)
+			);
+		})(),
 		...item.images
 			.filter(({ id }) => !id)
 			.map(async (image) => {
