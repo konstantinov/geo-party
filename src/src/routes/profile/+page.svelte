@@ -54,6 +54,9 @@
 		flex-flow: column;
 		gap: 20px;
 		align-items: center;
+		max-height: 100%;
+		overflow: auto;
+		box-sizing: border-box;
 	}
 
 	@media (min-width: 600px) {

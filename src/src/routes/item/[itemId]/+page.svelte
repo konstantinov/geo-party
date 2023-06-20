@@ -25,7 +25,7 @@
 		<h2>
 			{data.item.name}
 
-			{#if data.item.userId === user.id}
+			{#if data.item.userId === user?.id}
 				<Button leftIcon="pen" on:click={() => goto(`/edit/${data.item.id}`)} />
 			{/if}
 		</h2>

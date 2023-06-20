@@ -15,28 +15,32 @@
 		{
 			icon: 'newspaper',
 			text: 'Home',
-			url: '/'
+			url: '/',
+			pathname: '/'
 		},
 		{
 			icon: 'map',
 			text: 'Map',
-			url: '/map'
+			url: '/search?showMap=1',
+			pathname: '/search'
 		},
 		{
 			icon: 'bookmark',
 			text: 'Bookmarks',
-			url: '/bookmarks'
+			url: '/bookmarks',
+			pathname: '/bookmarks'
 		},
 		{
 			icon: 'user',
 			text: 'Profile',
-			url: '/profile'
+			url: '/profile',
+			pathname: '/profile'
 		}
 	];
 </script>
 
 <div class="container">
-	<div class="content">
+	<div class="content" id="layout_content">
 		{#if $navigating}
 			<div class="loader">
 				<i class="fas fa-cog fa-spin" />
@@ -50,7 +54,7 @@
 			{#each items as item}
 				<Button
 					leftIcon={`far fa-${item.icon}`}
-					{...pathname === item.url ? { text: item.text, color: 'black' } : undefined}
+					{...pathname === item.pathname ? { text: item.text, color: 'black' } : undefined}
 					on:click={() => goto(item.url)}
 				/>
 			{/each}
@@ -115,7 +119,9 @@
 	.content {
 		width: 100%;
 		flex: 1;
-		overflow: auto;
+		overflow: hidden;
 		position: relative;
+		display: flex;
+		flex-flow: column;
 	}
 </style>

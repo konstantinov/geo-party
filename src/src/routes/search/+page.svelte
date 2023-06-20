@@ -1,5 +1,7 @@
 <script>
 	import SearchHeader from '~/organisms/SearchHeader.svelte';
+	import Map from '~/moleculas/Map.svelte';
+	import SplitLayout from '~/layouts/SplitLayout.svelte';
 	import ItemCard from '~/moleculas/ItemCard.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -26,18 +28,27 @@
 	on:search={({ detail: { query, categories } }) =>
 		goto(`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}`)}
 />
-<div class="std-w std-p items-list">
-	{#each data.items as item}
-		<ItemCard {item} on:click={() => goto(`/item/${item.id}/`)} />
-	{/each}
-</div>
+<SplitLayout>
+	<div class="std-p items-list" slot="content">
+		{#each data.items as item}
+			<ItemCard {item} xs on:click={() => goto(`/item/${item.id}/`)} />
+		{/each}
+	</div>
+	<svelte:fragment slot="rightSidebar">
+		<Map containerClass="search-map" />
+	</svelte:fragment>
+</SplitLayout>
 
 <style>
-	@media (min-width: 600px) {
+	@media (min-width: 800px) {
 		.items-list > :global(.Item) {
-			flex: calc((100% - 50px) / 3) 0 0;
+			flex: calc((100% - 25px) / 2) 0 0;
 			box-sizing: border-box;
 		}
+	}
+
+	:global(.search-map) {
+		height: 100%;
 	}
 
 	.std-b {
@@ -53,10 +64,19 @@
 		display: flex;
 		flex-flow: row wrap;
 		gap: 25px;
+		overflow: auto;
+		max-height: 100%;
+		box-sizing: border-box;
 	}
 	.items-list {
 		display: flex;
 		flex-flow: row wrap;
 		gap: 25px;
+	}
+
+	:global(.SplitLayoyt) {
+		flex-grow: 1;
+		max-height: 100%;
+		overflow: hidden;
 	}
 </style>
