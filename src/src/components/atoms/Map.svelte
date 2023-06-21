@@ -13,35 +13,43 @@
 
 	let map, container;
 
+	const iconLayout = ymaps.templateLayoutFactory.createClass(`<i class="far fa-circle-dot"></i>`);
+	$: {
+		if (map) {
+			map.geoObjects.removeAll();
+			if (dots.length) {
+				dots.forEach((dot) => {
+					map.geoObjects.add(
+						new ymaps.Placemark(
+							[dot.latitude, dot.longitude],
+							{},
+							{
+								iconLayout,
+								iconShape: {
+									type: 'Circle',
+									coordinates: [0, 0],
+									radius: 18
+								}
+							}
+						)
+					);
+				});
+
+				if (autoCenter) {
+					map.setBounds(map.geoObjects.getBounds());
+
+					if (map.getZoom() > 16) map.setZoom(16);
+				}
+			}
+		}
+	}
+
 	onMount(async () => {
 		map = new ymaps.Map(container, {
 			center,
 			zoom,
 			controls: ['geolocationControl', 'typeSelector']
 		});
-
-		const iconLayout = ymaps.templateLayoutFactory.createClass(`<i class="far fa-circle-dot"></i>`);
-
-		if (dots.length) {
-			dots.forEach((dot) => {
-				map.geoObjects.add(
-					new ymaps.Placemark(
-						[dot.latitude, dot.longitude],
-						{},
-						{
-							iconLayout,
-							iconShape: {
-								type: 'Circle',
-								coordinates: [0, 0],
-								radius: 18
-							}
-						}
-					)
-				);
-			});
-
-			if (autoCenter) map.setBounds(map.geoObjects.getBounds());
-		}
 
 		if (centerMark) {
 			centerMarkObject = new ymaps.Placemark(
@@ -73,7 +81,9 @@
 			const center = event.get('newCenter');
 			const zoom = event.get('newZoom');
 
-			dispatch('move', { center, zoom });
+			const bounds = event.get('newBounds');
+
+			dispatch('move', { center, zoom, bounds });
 		});
 	});
 
@@ -89,6 +99,6 @@
 
 <style>
 	:global(.fa-circle-dot) {
-		color: #fc9d2d;
+		color: #000;
 	}
 </style>

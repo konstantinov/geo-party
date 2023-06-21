@@ -61,7 +61,7 @@
 			</div>
 			<div class="map">
 				<Tag
-					text="show map"
+					text="Show map"
 					icon="map"
 					on:click={() => {
 						showMap = !showMap;

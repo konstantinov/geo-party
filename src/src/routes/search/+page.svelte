@@ -21,19 +21,20 @@
 	}
 
 	export let data;
+
+	const buildUrl = ({ query, categories, showMap, bounds }) =>
+		`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}${
+			showMap ? '&showMap=1' : ''
+		}${bounds && showMap ? `&bounds=${encodeURIComponent(JSON.stringify(bounds))}` : ''}`;
 </script>
 
 <SearchHeader
 	{...data}
 	{query}
 	{selectedCategories}
+	{showMap}
 	filterOpened
-	on:search={({ detail: { query, categories, showMap } }) =>
-		goto(
-			`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}${
-				showMap ? '&showMap=1' : ''
-			}`
-		)}
+	on:search={({ detail }) => goto(buildUrl({ bounds, ...detail }))}
 />
 <SplitLayout rightSidebarOpened={showMap}>
 	<div class="std-p items-list" slot="content" class:fullwidth={!showMap}>
@@ -44,7 +45,13 @@
 		{/each}
 	</div>
 	<svelte:fragment slot="rightSidebar">
-		<Map containerClass="search-map" dots={data.items} autoCenter={!bounds} />
+		<Map
+			containerClass="search-map"
+			dots={data.items}
+			autoCenter={!bounds}
+			on:move={({ detail: { bounds } }) =>
+				goto(buildUrl({ bounds, query, showMap, categories: selectedCategories }))}
+		/>
 	</svelte:fragment>
 </SplitLayout>
 
@@ -106,6 +113,8 @@
 		padding-bottom: 0;
 		padding-right: 12px;
 		margin-right: 13px;
+		height: 100%;
+		align-items: flex-start;
 	}
 
 	.items-list.fullwidth {

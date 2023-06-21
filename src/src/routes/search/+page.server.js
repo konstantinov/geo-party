@@ -10,12 +10,24 @@ export const load = async ({ url }) => {
 	let items = [];
 
 	if (query) {
+		let boundsQuery;
+
+		if (url.searchParams.get('bounds')) {
+			try {
+				const bounds = JSON.parse(url.searchParams.get('bounds'));
+
+				boundsQuery = {
+					latitude: { $gt: bounds[0][0], $lt: bounds[1][0] },
+					longitude: { $gt: bounds[0][1], $lt: bounds[1][1] }
+				};
+			} catch (e) {}
+		}
 		const categoriesQuery = url.searchParams.get('categoryIds')
 			? { categoryId: { $in: url.searchParams.get('categoryIds').split(/,/) } }
 			: undefined;
 
 		items = await Item.find(
-			{ $text: { $search: query }, ...categoriesQuery },
+			{ $text: { $search: query }, ...categoriesQuery, ...boundsQuery },
 			{ score: { $meta: 'textScore' } }
 		)
 			.sort({
