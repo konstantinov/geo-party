@@ -7,7 +7,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 
-	let query, selectedCategories, bounds, showMap;
+	let query, selectedCategories, bounds, showMap, highlighted;
 
 	const updateState = (url) => {
 		const params = new URLSearchParams(url);
@@ -43,7 +43,11 @@
 <SplitLayout rightSidebarOpened={showMap}>
 	<div class="std-p items-list" slot="content" class:fullwidth={!showMap}>
 		{#each data.items as item}
-			<ItemCard {item} on:click={() => goto(`/item/${item.id}/`)} />
+			<ItemCard
+				{item}
+				on:click={() => goto(`/item/${item.id}/`)}
+				highlighted={highlighted === item.id}
+			/>
 		{:else}
 			<h1>Nothing found</h1>
 		{/each}
@@ -55,6 +59,9 @@
 			autoCenter={!bounds}
 			on:move={({ detail: { bounds } }) =>
 				goto(buildUrl({ bounds, query, showMap, categories: selectedCategories }))}
+			on:dotClick={(e) => console.log(e)}
+			on:dotMouseEnter={({ detail: { dot } }) => (highlighted = dot.id)}
+			on:dotMouseLeave={() => (highlighted = undefined)}
 		/>
 	</svelte:fragment>
 </SplitLayout>

@@ -16,23 +16,25 @@
 	const iconLayout = ymaps.templateLayoutFactory.createClass(`<i class="far fa-circle-dot"></i>`);
 	$: {
 		if (map) {
-			map.geoObjects.removeAll();
 			if (dots.length) {
+				map.geoObjects.removeAll();
 				dots.forEach((dot) => {
-					map.geoObjects.add(
-						new ymaps.Placemark(
-							[dot.latitude, dot.longitude],
-							{},
-							{
-								iconLayout,
-								iconShape: {
-									type: 'Circle',
-									coordinates: [0, 0],
-									radius: 18
-								}
+					const dotObject = new ymaps.Placemark(
+						[dot.latitude, dot.longitude],
+						{},
+						{
+							iconLayout,
+							iconShape: {
+								type: 'Circle',
+								coordinates: [0, 0],
+								radius: 18
 							}
-						)
+						}
 					);
+					dotObject.events.add('mouseenter', () => dispatch('dotMouseEnter', { dot }));
+					dotObject.events.add('mouseleave', () => dispatch('dotMouseLeave', { dot }));
+					dotObject.events.add('click', () => dispatch('dotClick', { dot }));
+					map.geoObjects.add(dotObject);
 				});
 
 				if (autoCenter) {

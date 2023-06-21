@@ -1,10 +1,11 @@
 <script>
 	import { buildImage } from '~/../utils/ui';
 	import ItemStat from '~/moleculas/ItemStat.svelte';
-	export let item;
+	export let item,
+		highlighted = false;
 </script>
 
-<div class="std-p std-b Item" on:click>
+<div class="std-p std-b Item" on:click class:highlighted>
 	<img src={buildImage(item.images[0].uuid)} alt={item.name} />
 	<h1>{item.name}</h1>
 	<ItemStat category={item.category} views={item.stat?.views} />
@@ -20,7 +21,8 @@
 		transition: ease-in-out 0.3s;
 	}
 
-	.Item:hover {
+	.Item:hover,
+	.Item.highlighted {
 		background: rgba(252, 156, 45, 0.6);
 	}
 

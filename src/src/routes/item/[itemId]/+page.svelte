@@ -8,8 +8,6 @@
 
 	export let data;
 
-	const itemDot = [data.item.latitude, data.item.longitude];
-
 	const user = getContext('user');
 </script>
 
@@ -34,7 +32,11 @@
 			{#each data.item.description.split(/\n/) as line}
 				<p>{line}</p>
 			{/each}
-			<Map center={itemDot} containerClass="item-map" dots={[itemDot]} />
+			<Map
+				center={[data.item.latitude, data.item.longitude]}
+				containerClass="item-map"
+				dots={[data.item]}
+			/>
 			<div class="stat">
 				<ItemStat category={data.item.category} views={data.item.stat?.views} />
 			</div>
