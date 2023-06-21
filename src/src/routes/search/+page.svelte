@@ -9,16 +9,20 @@
 
 	let query, selectedCategories, bounds, showMap;
 
-	$: {
-		const params = new URLSearchParams($page.url.search);
+	const updateState = (url) => {
+		const params = new URLSearchParams(url);
 
 		[query, selectedCategories, bounds, showMap] = [
-			params.get('query'),
+			params.get('query') ?? '',
 			params.get('categoryIds') ? params.get('categoryIds').split(/,/) : [],
-			params.get('bounds') ? JSON.parse(params.get('bounds')) : undefined,
+			params.get('bounds') && params.get('bounds') !== '-'
+				? JSON.parse(params.get('bounds'))
+				: params.get('bounds'),
 			params.get('showMap')
 		];
-	}
+	};
+
+	$: updateState($page.url.search);
 
 	export let data;
 
@@ -29,7 +33,7 @@
 </script>
 
 <SearchHeader
-	{...data}
+	categories={data.categories}
 	{query}
 	{selectedCategories}
 	{showMap}
@@ -39,7 +43,7 @@
 <SplitLayout rightSidebarOpened={showMap}>
 	<div class="std-p items-list" slot="content" class:fullwidth={!showMap}>
 		{#each data.items as item}
-			<ItemCard {item} xs on:click={() => goto(`/item/${item.id}/`)} />
+			<ItemCard {item} on:click={() => goto(`/item/${item.id}/`)} />
 		{:else}
 			<h1>Nothing found</h1>
 		{/each}

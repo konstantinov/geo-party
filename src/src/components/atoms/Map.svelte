@@ -2,7 +2,7 @@
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 
 	export let containerClass;
-	export let center = [37, 55];
+	export let center = undefined;
 
 	export let zoom = 7;
 	export let autoCenter = false;
@@ -46,7 +46,11 @@
 
 	onMount(async () => {
 		map = new ymaps.Map(container, {
-			center,
+			center:
+				center ||
+				(await ymaps.geolocation
+					.get({ provider: 'yandex' })
+					.then((location) => location.geoObjects.get(0).geometry.getCoordinates())),
 			zoom,
 			controls: ['geolocationControl', 'typeSelector']
 		});
@@ -85,6 +89,8 @@
 
 			dispatch('move', { center, zoom, bounds });
 		});
+
+		dispatch('init', { map });
 	});
 
 	onDestroy(() => {

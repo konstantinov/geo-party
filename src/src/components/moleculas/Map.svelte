@@ -42,5 +42,5 @@
 	{/if}
 </svelte:head>
 {#if mapsInitialized}
-	<Map {center} {centerMark} {zoom} {containerClass} {dots} {autoCenter} on:move />
+	<Map {center} {centerMark} {zoom} {containerClass} {dots} {autoCenter} on:move on:init />
 {/if}

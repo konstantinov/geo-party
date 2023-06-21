@@ -6,39 +6,46 @@ export const load = async ({ url }) => {
 	);
 
 	const query = url.searchParams.get('query');
+	const bounds = url.searchParams.get('bounds');
 
 	let items = [];
 
-	if (query) {
-		let boundsQuery;
+	// console.log(bounds);
 
-		if (url.searchParams.get('bounds')) {
+	if (query || bounds) {
+		let boundsQuery;
+		if (bounds && bounds !== '-') {
 			try {
-				const bounds = JSON.parse(url.searchParams.get('bounds'));
+				const boundsData = JSON.parse(url.searchParams.get('bounds'));
 
 				boundsQuery = {
-					latitude: { $gt: bounds[0][0], $lt: bounds[1][0] },
-					longitude: { $gt: bounds[0][1], $lt: bounds[1][1] }
+					latitude: { $gt: boundsData[0][0], $lt: boundsData[1][0] },
+					longitude: { $gt: boundsData[0][1], $lt: boundsData[1][1] }
 				};
 			} catch (e) {}
+
+			const searchQuery = query ? { $text: { $search: query } } : undefined;
+
+			const categoriesQuery = url.searchParams.get('categoryIds')
+				? { categoryId: { $in: url.searchParams.get('categoryIds').split(/,/) } }
+				: undefined;
+			if (searchQuery) {
+				items = Item.find(
+					{ ...searchQuery, ...categoriesQuery, ...boundsQuery },
+					{ score: { $meta: 'textScore' } }
+				).sort({
+					score: { $meta: 'textScore' }
+				});
+			} else {
+				items = Item.find({ ...categoriesQuery, ...boundsQuery });
+			}
+
+			items = await items
+				.populate('images')
+				.populate('category')
+				.then((result) => result.map((r) => r.toJSON()));
 		}
-		const categoriesQuery = url.searchParams.get('categoryIds')
-			? { categoryId: { $in: url.searchParams.get('categoryIds').split(/,/) } }
-			: undefined;
-
-		items = await Item.find(
-			{ $text: { $search: query }, ...categoriesQuery, ...boundsQuery },
-			{ score: { $meta: 'textScore' } }
-		)
-			.sort({
-				score: { $meta: 'textScore' }
-			})
-
-			.populate('images')
-			.populate('category')
-			.then((result) => result.map((r) => r.toJSON()));
 	}
-
 	return {
 		categories,
 		items

@@ -21,7 +21,7 @@
 		{
 			icon: 'map',
 			text: 'Map',
-			url: '/search?showMap=1',
+			url: '/search?showMap=1&bounds=-',
 			pathname: '/search'
 		},
 		{
