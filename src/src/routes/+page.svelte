@@ -8,8 +8,12 @@
 	export let data;
 
 	let gotoSearch = debounce(
-		(query, categories) =>
-			goto(`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}`),
+		(query, categories, showMap) =>
+			goto(
+				`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}${
+					showMap ? '&showMap=1' : ''
+				}`
+			),
 		1500
 	);
 </script>

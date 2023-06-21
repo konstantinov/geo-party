@@ -6,8 +6,8 @@
 
 	const dispatch = createEventDispatcher();
 
-	export let categories, query, selectedCategories;
-
+	export let categories, query, selectedCategories, showMap;
+	export let filterOpened = false;
 	let tags = [];
 	let tagsSelected = {};
 
@@ -20,7 +20,8 @@
 		if (selectedCategories) tags = categories.filter(({ id }) => selectedCategories.includes(id));
 	}
 
-	const dispatchEvent = () => dispatch('search', { query, categories: tags.map(({ id }) => id) });
+	const dispatchEvent = () =>
+		dispatch('search', { query, showMap, categories: tags.map(({ id }) => id) });
 
 	const onToggleTag = (tag) => {
 		if (tagsSelected[tag.id]) {
@@ -32,16 +33,12 @@
 		dispatchEvent();
 	};
 
-	let filterOpen = false;
-
-	$: filterOpen = selectedCategories?.length > 0;
-
 	const onToggleFilter = () => {
-		filterOpen = !filterOpen;
+		filterOpened = !filsterOpened;
 	};
 </script>
 
-<div class="SearchBox" class:filter-open={filterOpen}>
+<div class="SearchBox" class:filter-open={filterOpened}>
 	<Input
 		leftIcon="search"
 		rightIcon="sliders"
@@ -50,17 +47,29 @@
 		on:keyUp={dispatchEvent}
 		on:iconClick={({ detail }) => (detail.icon === 'right' ? onToggleFilter() : undefined)}
 	/>
-
-	{#if filterOpen}
+	{#if filterOpened}
 		<div class="filter">
-			{#each categories as category}
+			<div class="tags">
+				{#each categories as category}
+					<Tag
+						text={category.name}
+						icon={category.icon}
+						on:click={() => onToggleTag(category)}
+						color={tagsSelected[category.id] ? 'orange' : 'white'}
+					/>
+				{/each}
+			</div>
+			<div class="map">
 				<Tag
-					text={category.name}
-					icon={category.icon}
-					on:click={() => onToggleTag(category)}
-					color={tagsSelected[category.id] ? 'orange' : 'white'}
+					text="show map"
+					icon="map"
+					on:click={() => {
+						showMap = !showMap;
+						dispatchEvent();
+					}}
+					color={showMap ? 'orange' : 'white'}
 				/>
-			{/each}
+			</div>
 		</div>
 	{/if}
 </div>
@@ -73,10 +82,15 @@
 	}
 
 	.filter {
+		padding-top: 10px;
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+	}
+	.filter > .tags {
 		display: flex;
 		flex-flow: row wrap;
 		gap: 10px;
-		padding-top: 10px;
 	}
 
 	.filter-open :global(.Input > i:last-child) {

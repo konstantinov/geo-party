@@ -27,5 +27,6 @@
 	}
 	.content.fullwidth {
 		flex: 100% 0 0;
+		max-width: none;
 	}
 </style>

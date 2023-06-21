@@ -83,8 +83,8 @@ const itemSchema = new Schema(
 		userId: { type: mongoose.Types.ObjectId, index: true, ref: 'users', required: true },
 		name: String,
 		description: String,
-		latitude: Number,
-		longitude: Number,
+		latitude: { type: Number, required: true },
+		longitude: { type: Number, required: true },
 		zoom: Number
 	},
 	{

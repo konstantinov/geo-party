@@ -7,14 +7,16 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 
-	let query, selectedCategories;
+	let query, selectedCategories, bounds, showMap;
 
 	$: {
 		const params = new URLSearchParams($page.url.search);
 
-		[query, selectedCategories] = [
+		[query, selectedCategories, bounds, showMap] = [
 			params.get('query'),
-			params.get('categoryIds') ? params.get('categoryIds').split(/,/) : []
+			params.get('categoryIds') ? params.get('categoryIds').split(/,/) : [],
+			params.get('bounds') ? JSON.parse(params.get('bounds')) : undefined,
+			params.get('showMap')
 		];
 	}
 
@@ -25,30 +27,63 @@
 	{...data}
 	{query}
 	{selectedCategories}
-	on:search={({ detail: { query, categories } }) =>
-		goto(`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}`)}
+	filterOpened
+	on:search={({ detail: { query, categories, showMap } }) =>
+		goto(
+			`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}${
+				showMap ? '&showMap=1' : ''
+			}`
+		)}
 />
-<SplitLayout>
-	<div class="std-p items-list" slot="content">
+<SplitLayout rightSidebarOpened={showMap}>
+	<div class="std-p items-list" slot="content" class:fullwidth={!showMap}>
 		{#each data.items as item}
 			<ItemCard {item} xs on:click={() => goto(`/item/${item.id}/`)} />
+		{:else}
+			<h1>Nothing found</h1>
 		{/each}
 	</div>
 	<svelte:fragment slot="rightSidebar">
-		<Map containerClass="search-map" />
+		<Map containerClass="search-map" dots={data.items} autoCenter={!bounds} />
 	</svelte:fragment>
 </SplitLayout>
 
 <style>
+	h1 {
+		text-align: center;
+		padding: 40px 0 0;
+		width: 100%;
+	}
 	@media (min-width: 800px) {
 		.items-list > :global(.Item) {
 			flex: calc((100% - 25px) / 2) 0 0;
 			box-sizing: border-box;
 		}
+		.items-list.fullwidth > :global(.Item) {
+			flex: calc((100% - 100px) / 3) 0 0;
+			box-sizing: border-box;
+		}
+	}
+
+	@media (min-width: 1000px) {
+		.items-list.fullwidth > :global(.Item) {
+			flex: calc((100% - 75px) / 4) 0 0;
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.items-list.fullwidth > :global(.Item) {
+			flex: calc((100% - 100px) / 5) 0 0;
+		}
 	}
 
 	:global(.search-map) {
-		height: 100%;
+		height: calc(100% - 25px);
+		margin: 0 25px 25px 0;
+		border: 1px solid #979797;
+		border-radius: 25px;
+		overflow: hidden;
+		box-sizing: border-box;
 	}
 
 	.std-b {
@@ -67,11 +102,15 @@
 		overflow: auto;
 		max-height: 100%;
 		box-sizing: border-box;
+		padding-top: 0;
+		padding-bottom: 0;
+		padding-right: 12px;
+		margin-right: 13px;
 	}
-	.items-list {
-		display: flex;
-		flex-flow: row wrap;
-		gap: 25px;
+
+	.items-list.fullwidth {
+		padding-right: 25px;
+		margin: 0;
 	}
 
 	:global(.SplitLayoyt) {

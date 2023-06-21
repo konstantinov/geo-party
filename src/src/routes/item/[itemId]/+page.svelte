@@ -17,24 +17,28 @@
 	<title>{data.item.name} / {data.item.category.name}</title>
 </svelte:head>
 
-<div class="std-w">
-	{#each data.item.images as image}
-		<img src={buildImage(image.uuid, { size: '1280x1280' })} />
-	{/each}
-	<div class="item-card-details std-p std-b">
-		<h2>
-			{data.item.name}
-
-			{#if data.item.userId === user?.id}
-				<Button leftIcon="pen" on:click={() => goto(`/edit/${data.item.id}`)} />
-			{/if}
-		</h2>
-
-		{#each data.item.description.split(/\n/) as line}
-			<p>{line}</p>
+<div class="std-s">
+	<div class="std-w">
+		{#each data.item.images as image}
+			<img src={buildImage(image.uuid, { size: '1280x1280' })} />
 		{/each}
-		<Map center={itemDot} containerClass="item-map" dots={[itemDot]} />
-		<div class="stat"><ItemStat category={data.item.category} views={data.item.stat?.views} /></div>
+		<div class="item-card-details std-p std-b">
+			<h2>
+				{data.item.name}
+
+				{#if data.item.userId === user?.id}
+					<Button leftIcon="pen" on:click={() => goto(`/edit/${data.item.id}`)} />
+				{/if}
+			</h2>
+
+			{#each data.item.description.split(/\n/) as line}
+				<p>{line}</p>
+			{/each}
+			<Map center={itemDot} containerClass="item-map" dots={[itemDot]} />
+			<div class="stat">
+				<ItemStat category={data.item.category} views={data.item.stat?.views} />
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -79,6 +83,7 @@
 		height: 40vh;
 		border-radius: 25px;
 		overflow: hidden;
+		border: 1px solid #979797;
 	}
 
 	@media (min-width: 600px) {

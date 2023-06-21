@@ -5,6 +5,7 @@
 	export let center = [37, 55];
 
 	export let zoom = 7;
+	export let autoCenter = false;
 	export let dots = [];
 	export let centerMark;
 	const dispatch = createEventDispatcher();
@@ -25,7 +26,7 @@
 			dots.forEach((dot) => {
 				map.geoObjects.add(
 					new ymaps.Placemark(
-						dot,
+						[dot.latitude, dot.longitude],
 						{},
 						{
 							iconLayout,
@@ -38,6 +39,8 @@
 					)
 				);
 			});
+
+			if (autoCenter) map.setBounds(map.geoObjects.getBounds());
 		}
 
 		if (centerMark) {

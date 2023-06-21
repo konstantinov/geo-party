@@ -21,31 +21,33 @@
 		(window.location = `https://accounts.google.com/o/oauth2/v2/auth?scope=profile&include_granted_scopes=true&response_type=token&state=state_parameter_passthrough_value&redirect_uri=${origin}/profile/auth-success/&client_id=${PUBLIC_GOOGLE_CLIENT_ID}`);
 </script>
 
-<div class="content std-w std-p">
-	<Avatar />
-	{#if user}
-		<div class="std-p std-b">
-			<h1>{user.name}</h1>
-			<h1>{user.email}</h1>
-			<Button
-				leftIcon="arrow-right-from-bracket"
-				text="Sign out"
-				color="black"
-				on:click={onLogout}
-			/>
-		</div>
-		<div class="std-p std-b">
-			<h1>My items</h1>
-		</div>
-		<div class="std-w items-list">
-			{#each data.items as item}
-				<ItemCard {item} on:click={() => goto(`/item/${item.id}/`)} />
-			{/each}
-		</div>
-	{:else}
-		You didn't sign in so far.
-		<Button leftIcon="fa-brands fa-google" text="Sign in" color="black" on:click={onLogin} />
-	{/if}
+<div class="std-s">
+	<div class="content std-w std-p">
+		<Avatar />
+		{#if user}
+			<div class="std-p std-b">
+				<h1>{user.name}</h1>
+				<h1>{user.email}</h1>
+				<Button
+					leftIcon="arrow-right-from-bracket"
+					text="Sign out"
+					color="black"
+					on:click={onLogout}
+				/>
+			</div>
+			<div class="std-p std-b">
+				<h1>My items</h1>
+			</div>
+			<div class="std-w items-list">
+				{#each data.items as item}
+					<ItemCard {item} on:click={() => goto(`/item/${item.id}/`)} />
+				{/each}
+			</div>
+		{:else}
+			You didn't sign in so far.
+			<Button leftIcon="fa-brands fa-google" text="Sign in" color="black" on:click={onLogin} />
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -54,9 +56,6 @@
 		flex-flow: column;
 		gap: 20px;
 		align-items: center;
-		max-height: 100%;
-		overflow: auto;
-		box-sizing: border-box;
 	}
 
 	@media (min-width: 600px) {

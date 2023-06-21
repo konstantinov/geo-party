@@ -8,6 +8,8 @@
 	export let center = undefined;
 	export let zoom = undefined;
 	export let centerMark = undefined;
+	export let autoCenter;
+
 	let script;
 	let mapsInitialized = false;
 	const scriptNeeded = typeof ymaps === 'undefined';
@@ -40,5 +42,5 @@
 	{/if}
 </svelte:head>
 {#if mapsInitialized}
-	<Map {center} {centerMark} {zoom} {containerClass} {dots} on:move />
+	<Map {center} {centerMark} {zoom} {containerClass} {dots} {autoCenter} on:move />
 {/if}
