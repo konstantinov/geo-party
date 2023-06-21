@@ -108,5 +108,6 @@
 <style>
 	:global(.fa-circle-dot) {
 		color: #000;
+		transform: translate(-50%, -50%);
 	}
 </style>

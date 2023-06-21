@@ -148,6 +148,10 @@ body {
 	background: #f6f6f6;
 	font-family: Roboto;
 	font-size: 14px;
+	--swiper-pagination-bottom: 33px;
+	--swiper-pagination-bullet-inactive-color: #fff;
+	--swiper-pagination-bullet-inactive-opacity: 1;
+	--swiper-theme-color: #fc9d2d;
 }
 
 input,
@@ -171,6 +175,10 @@ h2 {
 }
 
 @media (min-width: 600px) {
+	body {
+		--swiper-pagination-bottom: 58px;
+	}
+
 	.std-f {
 		width: 100%;
 		height: calc(100vh - 90px);

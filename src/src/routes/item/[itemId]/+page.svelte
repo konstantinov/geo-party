@@ -7,20 +7,31 @@
 	import { goto } from '$app/navigation';
 
 	export let data;
+	let fullImages = false;
 
 	const user = getContext('user');
 </script>
 
 <svelte:head>
 	<title>{data.item.name} / {data.item.category.name}</title>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
 </svelte:head>
 
 <div class="std-s">
 	<div class="std-w">
-		{#each data.item.images as image}
-			<img src={buildImage(image.uuid, { size: '1280x1280' })} />
-		{/each}
-		<div class="item-card-details std-p std-b">
+		<swiper-container spped="300" loop="true" navigation="true" pagination="true" autoplay="true">
+			{#each data.item.images as image}
+				<swiper-slide
+					><img
+						src={buildImage(image.uuid, { size: '1280x1280' })}
+						loading="lazy"
+						class:full={fullImages}
+						on:click={() => (fullImages = !fullImages)}
+					/></swiper-slide
+				>
+			{/each}</swiper-container
+		>
+		<div class="item-card-details std-p std-b" class:full={fullImages}>
 			<h2>
 				{data.item.name}
 
@@ -48,6 +59,11 @@
 	img {
 		display: block;
 		width: 100%;
+		max-height: calc(100vh - 90px);
+		object-fit: contain;
+	}
+
+	img:not(.full) {
 		max-height: 60vh;
 		object-fit: cover;
 	}
@@ -78,6 +94,7 @@
 		position: relative;
 		margin-top: -25px;
 		padding: 25px 20px;
+		z-index: 99;
 	}
 
 	.item-card-details > :global(.item-map) {
@@ -94,6 +111,10 @@
 			border-radius: 50px;
 			padding: 50px 20px;
 		}
+	}
+
+	.item-card-details.full {
+		margin-top: 0 !important;
 	}
 
 	.stat {
