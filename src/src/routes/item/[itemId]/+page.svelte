@@ -5,9 +5,11 @@
 	import { getContext } from 'svelte';
 	import Button from '~/atoms/Button.svelte';
 	import { goto } from '$app/navigation';
+	import axios from 'axios';
 
 	export let data;
 	let fullImages = false;
+	let bookmarked = data.bookmarked;
 
 	const user = getContext('user');
 </script>
@@ -50,6 +52,14 @@
 			/>
 			<div class="stat">
 				<ItemStat category={data.item.category} views={data.item.stat?.views} />
+				<Button
+					title={bookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
+					leftIcon={`fa${bookmarked ? '' : 'r'} fa-bookmark`}
+					on:click={() => {
+						bookmarked = !bookmarked;
+						axios.post('/bookmarks/toggle', { itemId: data.item.id });
+					}}
+				/>
 			</div>
 		</div>
 	</div>
@@ -59,8 +69,14 @@
 	img {
 		display: block;
 		width: 100%;
-		max-height: calc(100vh - 90px);
+		max-height: calc(100vh - 60px);
 		object-fit: contain;
+	}
+
+	@media (min-width: 600px) {
+		img {
+			max-height: calc(100vh - 90px);
+		}
 	}
 
 	img:not(.full) {
@@ -119,5 +135,8 @@
 
 	.stat {
 		padding: 10px 0;
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
 	}
 </style>

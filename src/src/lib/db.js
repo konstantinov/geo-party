@@ -76,6 +76,22 @@ const statSchema = new Schema(
 		}
 	}
 );
+const bookmarkSchema = new Schema(
+	{
+		userId: { type: mongoose.Types.ObjectId, unique: true, ref: 'users' },
+		bookmarks: {
+			type: Object,
+			default: () => ({})
+		}
+	},
+	{
+		toJSON: {
+			virtuals: true,
+			transform: transformId
+		},
+		timestamps: true
+	}
+);
 
 const itemSchema = new Schema(
 	{
@@ -150,3 +166,4 @@ export const Category = model('categories', categorySchema);
 export const Item = model('items', itemSchema);
 export const Image = model('images', imageSchema);
 export const Stat = model('stats', statSchema);
+export const Bookmark = model('bookmarks', bookmarkSchema);

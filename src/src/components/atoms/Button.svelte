@@ -2,6 +2,7 @@
 	import { buildIcon } from '~/../utils/ui';
 
 	export let type = '';
+	export let title = undefined;
 	export let color = 'white';
 	export let text = '';
 	export let leftIcon = undefined;
@@ -16,6 +17,7 @@
 	class:btn-orange={color === 'orange'}
 	class:btn-disabled={disabled}
 	{disabled}
+	{title}
 	>{#if leftIcon}<i class={buildIcon(leftIcon)} />{/if}{text || ''}{#if rightIcon}<i
 			class={buildIcon(rightIcon)}
 		/>{/if}</button

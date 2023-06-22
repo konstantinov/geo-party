@@ -34,7 +34,7 @@
 	};
 
 	const onToggleFilter = () => {
-		filterOpened = !filsterOpened;
+		filterOpened = !filterOpened;
 	};
 </script>
 
