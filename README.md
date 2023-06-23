@@ -1,3 +1,5 @@
+
+![Geo Party](src/static/img/gp-slogan.png)
 ## Developing
 
 .env file
