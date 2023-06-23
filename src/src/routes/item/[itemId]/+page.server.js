@@ -17,8 +17,7 @@ export const load = async ({ params, locals }) => {
 			stat.set(`viewsData.${locals.user.id}`, new Date());
 			stat.save();
 
-			bookmarked = !!(await Bookmark.findOne({ userId: locals.user.id }).then((r) => r?.toJSON()))
-				?.bookmarks[item.id];
+			bookmarked = !!(await Bookmark.findOne({ userId: locals.user.id }))?.bookmarks[item.id];
 		}
 		return {
 			item,

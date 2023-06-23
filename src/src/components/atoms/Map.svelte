@@ -83,7 +83,7 @@
 			});
 		}
 
-		map.events.add(['boundschange', 'boundschange'], (event) => {
+		map.events.add('boundschange', (event) => {
 			const center = event.get('newCenter');
 			const zoom = event.get('newZoom');
 
