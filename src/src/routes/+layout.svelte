@@ -66,6 +66,9 @@
 	footer {
 		width: 100%;
 		background: #fff;
+		position: fixed;
+		bottom: 0;
+		left: 0;
 	}
 	.loader {
 		align-items: center;
@@ -77,6 +80,7 @@
 		width: 100%;
 		height: 100%;
 		backdrop-filter: blur(6px);
+		z-index: 9999;
 	}
 
 	.loader > i {

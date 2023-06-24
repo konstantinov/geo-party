@@ -30,6 +30,7 @@
 		font-size: 14px;
 		border: 1px solid transparent;
 		transition: ease-in-out 0.3s;
+		white-space: nowrap;
 	}
 
 	.tag-orange {

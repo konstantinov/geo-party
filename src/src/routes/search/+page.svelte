@@ -72,14 +72,19 @@
 		padding: 40px 0 0;
 		width: 100%;
 	}
+
+	.items-list > :global(.Item) {
+		flex: calc(100% - 25px) 0 0;
+	}
+	.items-list.fullwidth > :global(.Item) {
+		flex: calc((100% - 100px) / 2) 0 0;
+	}
 	@media (min-width: 800px) {
 		.items-list > :global(.Item) {
 			flex: calc((100% - 25px) / 2) 0 0;
-			box-sizing: border-box;
 		}
 		.items-list.fullwidth > :global(.Item) {
 			flex: calc((100% - 100px) / 3) 0 0;
-			box-sizing: border-box;
 		}
 	}
 
@@ -96,12 +101,19 @@
 	}
 
 	:global(.search-map) {
-		height: calc(100% - 25px);
-		margin: 0 25px 25px 0;
+		height: calc(100% - 12px);
+		margin: 0 12px 12px 0;
 		border: 1px solid #979797;
 		border-radius: 25px;
 		overflow: hidden;
 		box-sizing: border-box;
+	}
+
+	@media (min-width: 600px) {
+		:global(.search-map) {
+			height: calc(100% - 25px);
+			margin: 0 25px 25px 0;
+		}
 	}
 
 	.std-b {
@@ -122,8 +134,8 @@
 		box-sizing: border-box;
 		padding-top: 0;
 		padding-bottom: 0;
-		padding-right: 12px;
-		margin-right: 13px;
+		padding-right: 6px;
+		margin-right: 6px;
 		height: 100%;
 		align-items: flex-start;
 	}
@@ -133,9 +145,16 @@
 		margin: 0;
 	}
 
-	:global(.SplitLayoyt) {
+	:global(.SplitLayout) {
 		flex-grow: 1;
 		max-height: 100%;
 		overflow: hidden;
+		margin-bottom: 60px;
+	}
+
+	@media (min-width: 600px) {
+		:global(.SplitLayout) {
+			margin-bottom: 90px;
+		}
 	}
 </style>
