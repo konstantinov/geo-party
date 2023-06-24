@@ -74,10 +74,16 @@
 	}
 
 	.items-list > :global(.Item) {
-		flex: calc(100% - 25px) 0 0;
+		flex: 100% 0 0;
+		box-sizing: border-box;
 	}
 	.items-list.fullwidth > :global(.Item) {
-		flex: calc((100% - 100px) / 2) 0 0;
+		flex: calc((100% - 12px) / 2) 0 0;
+	}
+	@media (min-width: 600px) {
+		.items-list.fullwidth > :global(.Item) {
+			flex: calc((100% - 25px) / 2) 0 0;
+		}
 	}
 	@media (min-width: 800px) {
 		.items-list > :global(.Item) {
@@ -128,7 +134,7 @@
 	.items-list {
 		display: flex;
 		flex-flow: row wrap;
-		gap: 25px;
+		gap: 12px;
 		overflow: auto;
 		max-height: 100%;
 		box-sizing: border-box;
@@ -155,6 +161,12 @@
 	@media (min-width: 600px) {
 		:global(.SplitLayout) {
 			margin-bottom: 90px;
+		}
+
+		.items-list {
+			padding-right: 12px;
+			margin-right: 13px;
+			gap: 25px;
 		}
 	}
 </style>

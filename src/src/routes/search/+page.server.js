@@ -23,28 +23,28 @@ export const load = async ({ url }) => {
 					longitude: { $gt: boundsData[0][1], $lt: boundsData[1][1] }
 				};
 			} catch (e) {}
-
-			const searchQuery = query ? { $text: { $search: query } } : undefined;
-
-			const categoriesQuery = url.searchParams.get('categoryIds')
-				? { categoryId: { $in: url.searchParams.get('categoryIds').split(/,/) } }
-				: undefined;
-			if (searchQuery) {
-				items = Item.find(
-					{ ...searchQuery, ...categoriesQuery, ...boundsQuery },
-					{ score: { $meta: 'textScore' } }
-				).sort({
-					score: { $meta: 'textScore' }
-				});
-			} else {
-				items = Item.find({ ...categoriesQuery, ...boundsQuery });
-			}
-
-			items = await items
-				.populate('images')
-				.populate('category')
-				.then((result) => result.map((r) => r.toJSON()));
 		}
+		const searchQuery = query ? { $text: { $search: query } } : undefined;
+
+		const categoriesQuery = url.searchParams.get('categoryIds')
+			? { categoryId: { $in: url.searchParams.get('categoryIds').split(/,/) } }
+			: undefined;
+
+		if (searchQuery) {
+			items = Item.find(
+				{ ...searchQuery, ...categoriesQuery, ...boundsQuery },
+				{ score: { $meta: 'textScore' } }
+			).sort({
+				score: { $meta: 'textScore' }
+			});
+		} else {
+			items = Item.find({ ...categoriesQuery, ...boundsQuery });
+		}
+
+		items = await items
+			.populate('images')
+			.populate('category')
+			.then((result) => result.map((r) => r.toJSON()));
 	}
 	return {
 		categories,
