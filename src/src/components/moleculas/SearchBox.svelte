@@ -50,14 +50,16 @@
 	{#if filterOpened}
 		<div class="filter">
 			<div class="tags">
-				{#each categories as category}
-					<Tag
-						text={category.name}
-						icon={category.icon}
-						on:click={() => onToggleTag(category)}
-						color={tagsSelected[category.id] ? 'orange' : 'white'}
-					/>
-				{/each}
+				<div class="tags-wrap">
+					{#each categories as category}
+						<Tag
+							text={category.name}
+							icon={category.icon}
+							on:click={() => onToggleTag(category)}
+							color={tagsSelected[category.id] ? 'orange' : 'white'}
+						/>
+					{/each}
+				</div>
 			</div>
 			<div class="map">
 				<Tag
@@ -79,6 +81,7 @@
 		flex: 1;
 		display: flex;
 		flex-flow: column;
+		overflow: hidden;
 	}
 
 	.filter {
@@ -88,9 +91,31 @@
 		justify-content: space-between;
 	}
 	.filter > .tags {
+		position: relative;
+		overflow: hidden;
+	}
+	.filter > .tags > .tags-wrap {
 		display: flex;
-		flex-flow: row wrap;
+		flex-flow: row nowrap;
 		gap: 10px;
+		overflow: auto;
+	}
+
+	.filter > .tags:after {
+		content: '';
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		width: 35px;
+		/* background: linear-gradient(to right, trnasparent 0%, #f6f6f6 100%); */
+		background: linear-gradient(90deg, transparent 0%, #f6f6f6 100%);
+	}
+
+	@media (min-width: 600px) {
+		.filter > .tags {
+			flex-flow: row wrap;
+		}
 	}
 
 	.filter-open :global(.Input > i:last-child) {
