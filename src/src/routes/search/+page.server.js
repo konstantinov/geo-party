@@ -1,4 +1,5 @@
 import { Category, Item } from '$lib/db';
+import { SEARCH_LIMIT } from '$env/static/private';
 
 export const load = async ({ url }) => {
 	const categories = await Category.find({}, {}, { sort: { name: 1 } }).then((cats) =>
@@ -35,14 +36,16 @@ export const load = async ({ url }) => {
 			).sort({
 				score: { $meta: 'textScore' }
 			});
-		} else {
+		} else if (boundsQuery) {
 			items = Item.find({ ...categoriesQuery, ...boundsQuery });
 		}
 
-		items = await items
-			.populate('images')
-			.populate('category')
-			.then((result) => result.map((r) => r.toJSON()));
+		if (searchQuery || boundsQuery)
+			items = await items
+				.populate('images')
+				.populate('category')
+				.limit(parseInt(SEARCH_LIMIT))
+				.then((result) => result.map((r) => r.toJSON()));
 	}
 	return {
 		categories,

@@ -26,6 +26,17 @@
 
 	export let data;
 
+	const onInit = (map) =>
+		goto(
+			buildUrl({
+				query,
+				categories: selectedCategories,
+				showMap,
+				bounds: map.getBounds(),
+				showMap: 1
+			})
+		);
+
 	const buildUrl = ({ query, categories, showMap, bounds }) =>
 		`/search/?query=${encodeURIComponent(query)}&categoryIds=${categories.join(',')}${
 			showMap ? '&showMap=1' : ''
@@ -57,6 +68,7 @@
 			containerClass="search-map"
 			dots={data.items}
 			autoCenter={!bounds}
+			on:init={({ detail: { map } }) => onInit(map)}
 			on:move={({ detail: { bounds } }) =>
 				goto(buildUrl({ bounds, query, showMap, categories: selectedCategories }))}
 			on:dotClick={(e) => console.log(e)}

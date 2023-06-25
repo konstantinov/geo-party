@@ -34,7 +34,9 @@
 
 	main > :global(.btn-circle) {
 		position: absolute;
-		bottom: 10px;
+		bottom: 70px;
+		height: 60px !important;
+		width: 60px !important;
 		right: 10px;
 	}
 	:global(.content) {
@@ -44,10 +46,8 @@
 
 	@media (min-width: 600px) {
 		main > :global(.btn-circle) {
-			bottom: 20px;
+			bottom: 110px;
 			right: 20px;
-			height: 50px !important;
-			width: 50px !important;
 			font-size: 130%;
 		}
 	}
