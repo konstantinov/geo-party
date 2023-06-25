@@ -3,6 +3,7 @@
 	"short_name": "GP",
 	"start_url": ".",
 	"display": "standalone",
+	"id": "/?source=pwa",
 	"background_color": "#fff",
 	"theme_color": "#fff",
 	"description": "Geo search engine.",

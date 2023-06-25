@@ -15,6 +15,8 @@ services:
       dockerfile: docker/node/Dockerfile
     ports:
       - 5173:5173
+      - 4173:4173
+      - 3000:3000
     volumes:
       - ./src/src:/app/src
       - ./src/static:/app/static

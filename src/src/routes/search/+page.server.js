@@ -10,8 +10,6 @@ export const load = async ({ url }) => {
 
 	let items = [];
 
-	// console.log(bounds);
-
 	if (query || bounds) {
 		let boundsQuery;
 		if (bounds && bounds !== '-') {
