@@ -8,7 +8,7 @@ export const load = async ({ locals }) => {
 
 		const itemIds = Object.keys(bookmark.bookmarks);
 
-		const items = await Item.find({ _id: { $in: itemIds } })
+		items = await Item.find({ _id: { $in: itemIds } })
 			.populate('images')
 			.populate('category')
 			.then((r) => r.map((i) => i.toJSON()));
