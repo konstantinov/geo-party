@@ -1,24 +1,16 @@
 <script>
-	import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
-	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { getContext } from 'svelte';
 
-	import Button from '~/atoms/Button.svelte';
+	import SigninButton from '~/moleculas/SigninButton.svelte';
 	import Avatar from '~/atoms/Avatar.svelte';
 	import ItemCard from '~/moleculas/ItemCard.svelte';
 
-	let origin;
 	export let data;
 
 	const user = getContext('user');
 
-	$: origin = $page.url.origin;
-
 	const onLogout = () => goto('/profile/logout');
-
-	const onLogin = () =>
-		(window.location = `https://accounts.google.com/o/oauth2/v2/auth?scope=profile&include_granted_scopes=true&response_type=token&state=state_parameter_passthrough_value&redirect_uri=${origin}/profile/auth-success/&client_id=${PUBLIC_GOOGLE_CLIENT_ID}`);
 </script>
 
 <div class="std-s">
@@ -28,12 +20,7 @@
 			<div class="std-p std-b">
 				<h1>{user.name}</h1>
 				<h1>{user.email}</h1>
-				<Button
-					leftIcon="arrow-right-from-bracket"
-					text="Sign out"
-					color="black"
-					on:click={onLogout}
-				/>
+				<SigninButton />
 			</div>
 			<div class="std-p std-b">
 				<h1>My items</h1>
@@ -44,8 +31,8 @@
 				{/each}
 			</div>
 		{:else}
-			You didn't sign in so far.
-			<Button leftIcon="fa-brands fa-google" text="Sign in" color="black" on:click={onLogin} />
+			<h1>You didn't sign in so far.</h1>
+			<SigninButton />
 		{/if}
 	</div>
 </div>

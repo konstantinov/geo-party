@@ -1,7 +1,12 @@
 <script>
 	import { goto } from '$app/navigation';
 	import ItemCard from '~/moleculas/ItemCard.svelte';
+	import { getContext } from 'svelte';
+	import SigninButton from '~/moleculas/SigninButton.svelte';
+
 	export let data;
+
+	const user = getContext('user');
 </script>
 
 <div class="std-s">
@@ -9,11 +14,16 @@
 		<div class="std-p std-b">
 			<h1>Bookmarks</h1>
 		</div>
-		<div class=" std-w items-list">
+		<div class=" std-w items-list" class:centered={!user}>
 			{#each data.items as item}
 				<ItemCard {item} on:click={() => goto(`/item/${item.id}/`)} />
 			{:else}
-				<h1>Nothing added to bookmarks yet.</h1>
+				{#if user}
+					<h1>Nothing added to bookmarks yet.</h1>
+				{:else}
+					<h1>Sign in to see your bookmarks.</h1>
+					<SigninButton />
+				{/if}
 			{/each}
 		</div>
 	</div>
@@ -36,6 +46,11 @@
 	}
 	h1 {
 		text-align: center;
+		width: 100%;
+	}
+
+	.centered {
+		justify-content: center;
 	}
 
 	@media (min-width: 600px) {
