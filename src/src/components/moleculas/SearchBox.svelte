@@ -40,12 +40,12 @@
 
 <div class="SearchBox" class:filter-open={filterOpened}>
 	<Input
-		leftIcon="search"
-		rightIcon="sliders"
+		leftIcon="sliders"
+		rightIcon="search"
 		bind:value={query}
 		on:change={dispatchEvent}
 		on:keyUp={dispatchEvent}
-		on:iconClick={({ detail }) => (detail.icon === 'right' ? onToggleFilter() : undefined)}
+		on:iconClick={({ detail }) => (detail.icon === 'left' ? onToggleFilter() : undefined)}
 	/>
 	{#if filterOpened}
 		<div class="filter">
@@ -118,7 +118,7 @@
 		}
 	}
 
-	.filter-open :global(.Input > i:last-child) {
+	.filter-open :global(.Input > i:first-child) {
 		color: #fc9d2d;
 	}
 </style>

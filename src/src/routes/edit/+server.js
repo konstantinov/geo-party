@@ -21,18 +21,12 @@ export const POST = async ({ locals, request }) => {
 	}
 	item.categoryId = item.category;
 	delete item.category;
-	const id = item.id;
+	const itemId = item.id || new mongoose.Types.ObjectId().toString();
 	delete item.id;
 
 	const userId = locals.user.id;
 
-	const result = await Item.updateOne(
-		{ _id: id, userId },
-		{ $set: { ...item, userId } },
-		{ upsert: true }
-	);
-
-	const itemId = id || result.upsertedId?.toString();
+	await Item.updateOne({ _id: itemId, userId }, { $set: { ...item, userId } }, { upsert: true });
 
 	const imageIds = item.images.filter(({ id }) => id).map(({ id }) => id);
 
@@ -42,7 +36,7 @@ export const POST = async ({ locals, request }) => {
 				publicKey: UPLOADCARE_KEY,
 				secretKey: UPLOADCARE_PRIVATE_KEY
 			});
-			const images = await Image.find({ itemId: id, _id: { $nin: imageIds } });
+			const images = await Image.find({ itemId, _id: { $nin: imageIds } });
 
 			await Promise.all(
 				images.map((image) =>
